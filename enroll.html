@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll – KLiC Courses</title>
+    <style>
+        :root {
+            --blue: #0A66C2;
+            --blue-dark: #084d94;
+            --light-blue: #E6F2FB;
+            --light-blue-2: #F4F9FD;
+            --red: #ED2553;
+            --red-dark: #c41a41;
+            --light-red: #fdeaef;
+            --orange: #F68029;
+            --orange-dark: #d4651a;
+            --light-orange: #fef0e6;
+            --text: #1A2A3A;
+            --text-soft: #5A6B7C;
+            --border: #DCE7F1;
+            --white: #FFFFFF;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            font-size: 16px;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* ── Header ── */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: saturate(180%) blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .nav {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 68px;
+        }
+
+        .logo img { height: 40px; width: auto; display: block; }
+
+        .nav-back {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-soft);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: var(--blue); }
+        .nav-back::before { content: "←"; }
+
+        /* ── Page layout ── */
+        .page {
+            min-height: calc(100vh - 68px);
+            background: linear-gradient(160deg, var(--light-blue-2) 0%, #fff5f7 50%, var(--light-orange) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 24px;
+        }
+
+        .enroll-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 4px 32px rgba(10,102,194,0.08);
+            width: 100%;
+            max-width: 480px;
+            overflow: hidden;
+        }
+
+        /* ── Card header ── */
+        .card-header {
+            background: linear-gradient(120deg, var(--red) 0%, var(--orange) 100%);
+            padding: 28px 32px 24px;
+            color: var(--white);
+        }
+
+        .card-header .eyebrow {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.85;
+            margin-bottom: 6px;
+        }
+
+        .card-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .card-header p {
+            margin-top: 6px;
+            font-size: 14px;
+            opacity: 0.88;
+        }
+
+        /* ── Form body ── */
+        .card-body {
+            padding: 28px 32px 32px;
+        }
+
+        /* Google sign-in */
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 11px 20px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            background: var(--white);
+            font-size: 14.5px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .google-btn:hover {
+            border-color: var(--blue);
+            box-shadow: 0 2px 8px rgba(10,102,194,0.12);
+        }
+        .google-btn svg { flex-shrink: 0; }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            color: var(--text-soft);
+            font-size: 13px;
+        }
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Form fields */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            color: var(--text);
+            background: var(--white);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: none;
+            -webkit-appearance: none;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(10,102,194,0.10);
+        }
+
+        .select-wrap {
+            position: relative;
+        }
+        .select-wrap::after {
+            content: "▾";
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-soft);
+            pointer-events: none;
+            font-size: 13px;
+        }
+
+        .phone-row {
+            display: flex;
+            gap: 8px;
+        }
+        .phone-prefix {
+            width: 72px;
+            flex-shrink: 0;
+            text-align: center;
+            color: var(--text-soft);
+            background: var(--light-blue-2);
+        }
+        .phone-row input[type="tel"] {
+            flex: 1;
+        }
+
+        /* Submit */
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(120deg, var(--red) 0%, var(--orange) 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 15.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+            margin-top: 20px;
+            letter-spacing: 0.2px;
+        }
+        .submit-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+        .submit-btn:active { transform: translateY(0); }
+
+        .terms {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-soft);
+            margin-top: 14px;
+            line-height: 1.5;
+        }
+        .terms a { color: var(--blue); }
+
+        /* ── Success state ── */
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 48px 32px;
+        }
+
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(120deg, var(--red) 0%, var(--orange) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+        }
+
+        .success-screen h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .success-screen p {
+            color: var(--text-soft);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .success-screen .back-link {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 10px 24px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            transition: border-color 0.2s;
+        }
+        .success-screen .back-link:hover { border-color: var(--blue); color: var(--blue); }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="nav">
+        <a href="index.html" class="logo">
+            <img src="logo-KLiC-Courses.jpg" alt="KLiC Courses">
+        </a>
+        <a href="index.html" class="nav-back">Back to home</a>
+    </nav>
+</header>
+
+<div class="page">
+    <div class="enroll-card">
+
+        <!-- Success screen (hidden by default) -->
+        <div class="success-screen" id="successScreen">
+            <div class="success-icon">✓</div>
+            <h2>You're registered!</h2>
+            <p>Thanks for enrolling. Our team will reach out within 24 hours to confirm your seat and share next steps.</p>
+            <a href="index.html" class="back-link">← Back to home</a>
+        </div>
+
+        <!-- Enroll form -->
+        <div id="enrollForm">
+            <div class="card-header">
+                <div class="eyebrow">Enroll Now</div>
+                <h1>Start your learning journey</h1>
+                <p>Fill in your details and we'll get you started.</p>
+            </div>
+
+            <div class="card-body">
+                <!-- Google sign-in -->
+                <button class="google-btn" type="button" onclick="handleGoogle()">
+                    <svg width="18" height="18" viewBox="0 0 48 48">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    Continue with Google
+                </button>
+
+                <div class="divider">or fill in manually</div>
+
+                <form id="enrollFormEl" onsubmit="handleSubmit(event)" novalidate>
+
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" placeholder="e.g. Priya Sharma" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Mobile Number</label>
+                        <div class="phone-row">
+                            <input class="phone-prefix" type="text" value="+91" readonly>
+                            <input type="tel" id="phone" placeholder="9876543210" maxlength="10" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pincode">PIN Code</label>
+                        <input type="text" id="pincode" placeholder="e.g. 411016" maxlength="6" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="course">Select Course</label>
+                        <div class="select-wrap">
+                            <select id="course" required>
+                                <option value="" disabled selected>Choose a course…</option>
+                                <option value="advanced-excel">Advanced Excel</option>
+                                <option value="klic-ai">KLiC AI</option>
+                                <option value="tally-prime-gst">Tally Prime with GST</option>
+                                <option value="advanced-tally-prime-gst">Advanced Tally Prime with GST</option>
+                                <option value="data-entry-management">Data Entry and Data Management</option>
+                                <option value="data-analytics-visualisation">Data Analytics and Data Visualisation</option>
+                                <option value="python">Python</option>
+                                <option value="advanced-python">Advanced Python</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="submit-btn" type="submit">Register &amp; Enroll →</button>
+
+                    <p class="terms">
+                        By enrolling you agree to KLiC's
+                        <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.
+                    </p>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Pre-select course from URL param ?course=...
+    (function () {
+        const params = new URLSearchParams(window.location.search);
+        const course = params.get("course");
+        if (course) {
+            const sel = document.getElementById("course");
+            for (let opt of sel.options) {
+                if (opt.value === course) { opt.selected = true; break; }
+            }
+        }
+    })();
+
+    function handleGoogle() {
+        // Dummy — just show success
+        showSuccess();
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        const name    = document.getElementById("fullName").value.trim();
+        const phone   = document.getElementById("phone").value.trim();
+        const pincode = document.getElementById("pincode").value.trim();
+        const course  = document.getElementById("course").value;
+
+        if (!name || !phone || !pincode || !course) {
+            alert("Please fill in all fields before submitting.");
+            return;
+        }
+        if (!/^\d{10}$/.test(phone)) {
+            alert("Please enter a valid 10-digit mobile number.");
+            return;
+        }
+        if (!/^\d{6}$/.test(pincode)) {
+            alert("Please enter a valid 6-digit PIN code.");
+            return;
+        }
+
+        showSuccess();
+    }
+
+    function showSuccess() {
+        document.getElementById("enrollForm").style.display = "none";
+        const s = document.getElementById("successScreen");
+        s.style.display = "block";
+    }
+</script>
+
+</body>
+</html>

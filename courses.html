@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KLiC | Courses</title>
+<style>
+    :root {
+        --blue: #0A66C2;
+        --blue-dark: #084d94;
+        --light-blue: #E6F2FB;
+        --light-blue-2: #F4F9FD;
+        --red: #ED2553;
+        --red-dark: #c41a41;
+        --light-red: #fdeaef;
+        --orange: #F68029;
+        --orange-dark: #d4651a;
+        --light-orange: #fef0e6;
+        --text: #1A2A3A;
+        --text-soft: #5A6B7C;
+        --border: #DCE7F1;
+        --white: #FFFFFF;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        color: var(--text);
+        background: var(--white);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        font-size: 16px;
+    }
+
+    a { color: var(--blue); text-decoration: none; transition: color 0.2s ease; }
+    a:hover { color: var(--blue-dark); }
+
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+        position: sticky;
+        top: 0;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: saturate(180%) blur(10px);
+        border-bottom: 1px solid var(--border);
+        z-index: 100;
+    }
+
+    .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 68px;
+    }
+
+    .logo {
+        font-weight: 700;
+        font-size: 22px;
+        color: var(--blue);
+        letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+    }
+
+    .logo img { height: 40px; width: auto; display: block; }
+
+    .logo span {
+        color: var(--text);
+        font-weight: 400;
+        font-size: 14px;
+        margin-left: 8px;
+        letter-spacing: 0;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 28px;
+        list-style: none;
+        align-items: center;
+    }
+
+    .nav-links a { color: var(--text); font-size: 14.5px; font-weight: 500; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links a.btn-primary { color: var(--white); }
+    .nav-links a.btn-primary:hover { color: var(--white); }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 22px;
+        border-radius: 8px;
+        font-size: 14.5px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary { background: linear-gradient(120deg, var(--red) 0%, var(--orange) 100%); color: var(--white); }
+    .btn-primary:hover { background: linear-gradient(120deg, var(--red-dark) 0%, var(--orange-dark) 100%); color: var(--white); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--blue); border: 1.5px solid var(--blue); }
+    .btn-outline:hover { background: var(--light-blue); color: var(--blue); }
+
+    .hamburger {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
+
+    /* Page hero */
+    .page-hero {
+        background: linear-gradient(160deg, var(--light-blue-2) 0%, #fff5f7 50%, var(--light-orange) 100%);
+        padding: 64px 0 48px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-soft);
+        margin-bottom: 24px;
+        transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--blue); }
+    .back-link::before { content: "←"; font-size: 16px; }
+
+    .page-hero-inner { display: flex; align-items: flex-start; gap: 20px; }
+
+    .track-hero-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        background: var(--light-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        flex-shrink: 0;
+    }
+
+    .page-hero h1 {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: -0.8px;
+        line-height: 1.2;
+        margin-bottom: 10px;
+    }
+
+    .page-hero p {
+        font-size: 16px;
+        color: var(--text-soft);
+        max-width: 600px;
+    }
+
+    .course-count-badge {
+        display: inline-block;
+        background: var(--light-red);
+        color: var(--red);
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+
+    /* Courses grid */
+    .courses-section { padding: 64px 0 88px; }
+
+    .courses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .course-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 28px 24px;
+        transition: all 0.25s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .course-card:hover {
+        border-color: var(--blue);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(10, 102, 194, 0.08);
+    }
+
+    .course-card-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 11px;
+        background: var(--light-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin-bottom: 4px;
+    }
+
+    .course-card h3 {
+        font-size: 15.5px;
+        font-weight: 700;
+        color: var(--text);
+        line-height: 1.35;
+    }
+
+    .course-card .course-tag {
+        display: inline-block;
+        background: var(--light-blue-2);
+        color: var(--text-soft);
+        font-size: 12px;
+        font-weight: 500;
+        padding: 3px 10px;
+        border-radius: 6px;
+        margin-top: 4px;
+        width: fit-content;
+    }
+
+    .enroll-link {
+        margin-top: auto;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--red);
+    }
+    .enroll-link::after { content: " →"; }
+    .enroll-link:hover { color: var(--red-dark); }
+
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        padding: 80px 24px;
+        color: var(--text-soft);
+    }
+    .empty-state h3 { font-size: 22px; font-weight: 600; margin-bottom: 10px; color: var(--text); }
+
+    /* Track switcher */
+    .track-switcher {
+        background: var(--light-blue-2);
+        border-bottom: 1px solid var(--border);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .track-tabs {
+        display: flex;
+        gap: 4px;
+        padding: 12px 24px;
+        max-width: 1140px;
+        margin: 0 auto;
+        white-space: nowrap;
+    }
+
+    .track-tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-soft);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+    .track-tab:hover { background: var(--light-red); color: var(--red); }
+    .track-tab.active { background: linear-gradient(120deg, var(--red), var(--orange)); color: var(--white); font-weight: 600; }
+
+    /* Mobile */
+    @media (max-width: 860px) {
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 68px;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            flex-direction: column;
+            gap: 0;
+            padding: 12px 24px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-links.open { display: flex; }
+        .nav-links li { width: 100%; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .nav-links li:last-child { border-bottom: none; padding-top: 14px; }
+        .hamburger { display: flex; }
+        .page-hero h1 { font-size: 26px; }
+        .courses-grid { grid-template-columns: 1fr; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <nav class="nav">
+            <a href="klic-redesign.html" class="logo">
+                <img src="mkcl_logo.jpg" alt="MKCL logo">
+                <img src="logo-KLiC-Courses.jpg" alt="KLiC logo">
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="klic-redesign.html#home">Home</a></li>
+                <li><a href="klic-redesign.html#courses">Courses</a></li>
+                <li><a href="klic-redesign.html#tracks">Tracks</a></li>
+                <li><a href="klic-redesign.html#about">About</a></li>
+                <li><a href="klic-redesign.html#contact">Contact</a></li>
+                <li><a href="#" class="btn btn-primary">Register</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </div>
+</header>
+
+<!-- Track tab bar -->
+<div class="track-switcher">
+    <div class="track-tabs" id="trackTabs"></div>
+</div>
+
+<!-- Page hero -->
+<div class="page-hero">
+    <div class="container">
+        <a href="klic-redesign.html#tracks" class="back-link">Back to Career Tracks</a>
+        <div class="page-hero-inner">
+            <div class="track-hero-icon" id="heroIcon"></div>
+            <div>
+                <div class="course-count-badge" id="courseCountBadge"></div>
+                <h1 id="heroTitle"></h1>
+                <p id="heroDesc"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Courses -->
+<section class="courses-section">
+    <div class="container">
+        <div class="courses-grid" id="coursesGrid"></div>
+    </div>
+</section>
+
+<script>
+// ─── Track definitions ───────────────────────────────────────────────────────
+const tracks = [
+    {
+        id: "software-development",
+        name: "Software Development",
+        icon: "💻",
+        desc: "Build real-world applications with modern languages, frameworks, and tools used in the industry.",
+        courses: [
+            { slug: "java", name: "Java Programming" },
+            { slug: "advanced-java", name: "Advanced Java" },
+            { slug: "python", name: "Python" },
+            { slug: "advanced-python", name: "Advanced Python" },
+            { slug: "php", name: "PHP" },
+            { slug: "mobile-app-development", name: "Mobile App Development" },
+            { slug: "c-programming", name: "C Programming" },
+            { slug: "c-plusplus", name: "C++ Programming" },
+            { slug: "c-cpp-programming", name: "C & C++ Programming" },
+            { slug: "c-sharp", name: "C#" },
+            { slug: "scratch", name: "Scratch" },
+            { slug: "scratch-programming", name: "Scratch Programming" },
+            { slug: "iot", name: "IoT" },
+            { slug: "robotics", name: "Robotics" },
+            { slug: "java-programming-essentials", name: "Java Programming Essentials" },
+            { slug: "java-programming-complete", name: "Java Programming Complete" },
+            { slug: "java-programming-essentials-and-mobile-app-development", name: "Java + Mobile App Development" },
+            { slug: "python-fundamentals-and-programming-basics", name: "Python Fundamentals & Programming Basics" },
+            { slug: "python-gui-development-and-fundamentals-of-mysql-databases", name: "Python GUI & MySQL Fundamentals" },
+            { slug: "building-dynamic-applications-with-flask-and-django-frameworks", name: "Flask & Django Frameworks" },
+            { slug: "introduction-to-java-programming-fundamentals", name: "Java Programming Fundamentals" },
+            { slug: "object-oriented-programming-oop-concepts-and-practical-implementation-in-java", name: "OOP Concepts in Java" },
+            { slug: "advanced-java-programming-concepts-and-techniques", name: "Advanced Java Concepts & Techniques" },
+            { slug: "web-development-using-java-technologies", name: "Web Development using Java" },
+            { slug: "fundamental-principles-of-android-app-development", name: "Android App Development Fundamentals" },
+            { slug: "custom-android-app-creation-and-design-using-android-studio", name: "Android Studio App Design" },
+            { slug: "foundations-of-data-structures-with-c-and-c-plus-plus", name: "Data Structures with C & C++" },
+            { slug: "advanced-data-structures-and-algorithms-in-c-and-c-plus-plus", name: "Advanced Data Structures (C/C++)" },
+            { slug: "object-oriented-data-structures-in-c-plus-plus", name: "OO Data Structures in C++" },
+            { slug: "applications-of-data-structures-in-c-and-c-plus-plus", name: "Applications of Data Structures" },
+            { slug: "basics-of-c-sharp-and-object-oriented-programming-concepts", name: "C# & OOP Basics" },
+            { slug: "mastery-of-methods-arrays-and-strings-in-c-sharp", name: "C# – Methods, Arrays & Strings" },
+            { slug: "exploration-of-collections-and-data-structures-in-c-sharp", name: "C# Collections & Data Structures" },
+            { slug: "advanced-c-sharp-programming-techniques", name: "Advanced C# Techniques" },
+            { slug: "fundamentals-of-php", name: "PHP Fundamentals" },
+            { slug: "foundations-of-mysql-and-php", name: "MySQL & PHP Foundations" },
+            { slug: "mastering-html-css-and-php-for-dynamic-websites", name: "HTML, CSS & PHP for Dynamic Sites" },
+            { slug: "web-development-with-advanced-php-concepts", name: "Advanced PHP Web Development" },
+            { slug: "python-programming-fundamentals-with-data-science-and-ai-ml-unleashed", name: "Python + Data Science & AI/ML" },
+            { slug: "java-programming-unleashed", name: "Java Programming Unleashed" },
+            { slug: "basics-of-php", name: "Basics of PHP" },
+            { slug: "basics-of-c-sharp", name: "Basics of C#" },
+            { slug: "basics-of-data-structures-using-c-and-c-plus-plus", name: "Basics of Data Structures (C/C++)" },
+            { slug: "advanced-data-structures-using-c-and-c-plus-plus", name: "Advanced Data Structures (C/C++)" },
+            { slug: "advanced-php", name: "Advanced PHP" },
+            { slug: "advanced-concepts-of-c-sharp", name: "Advanced C# Concepts" },
+            { slug: "data-structures", name: "Data Structures" },
+            { slug: "c-and-c-plus-plus-programming-and-python-with-mysql-fundamentals", name: "C/C++ + Python & MySQL" },
+            { slug: "c-and-c-plus-plus-programming-and-java-programming-essentials", name: "C/C++ + Java Essentials" },
+            { slug: "advanced-java-programming-and-web-development-using-java", name: "Advanced Java & Web Dev" },
+        ]
+    },
+    {
+        id: "data-ai",
+        name: "Data & AI",
+        icon: "🤖",
+        desc: "Master data science, machine learning, and AI technologies shaping the future of every industry.",
+        courses: [
+            { slug: "ai", name: "AI" },
+            { slug: "klic-ai", name: "KLiC AI" },
+            { slug: "ai-ml-basics", name: "AI & ML Basics" },
+            { slug: "ml-and-ai-basics", name: "ML & AI Basics" },
+            { slug: "basics-of-ai-and-foundations", name: "Basics of AI & Foundations" },
+            { slug: "foundations-of-artificial-intelligence-ai-and-machine-learning-ml", name: "Foundations of AI & ML" },
+            { slug: "advanced-applications-and-implications-of-ai-and-ml", name: "Advanced AI & ML Applications" },
+            { slug: "foundations-of-data-science-and-artificial-intelligence-with-python", name: "Data Science & AI with Python" },
+            { slug: "introduction-to-data-analytics-and-data-visualisation-essentials", name: "Data Analytics & Visualisation Essentials" },
+            { slug: "mastery-of-programming-advanced-techniques-and-ai", name: "Advanced Programming Techniques & AI" },
+            { slug: "advanced-visualization-techniques-and-python-fundamentals", name: "Advanced Visualisation & Python" },
+            { slug: "exploring-advanced-tools-and-techniques", name: "Exploring Advanced Tools & Techniques" },
+            { slug: "data-analysis-techniques-using-microsoft-excel", name: "Data Analysis with Microsoft Excel" },
+            { slug: "data-visualization-and-automation-strategies", name: "Data Visualization & Automation" },
+            { slug: "introduction-to-data-management-and-typing", name: "Data Management & Typing" },
+            { slug: "data-analytics-and-visualization", name: "Data Analytics & Visualization" },
+            { slug: "basics-of-data-analytics-and-data-visualisation", name: "Basics of Data Analytics & Visualisation" },
+            { slug: "data-analytics-and-data-visualisation-pro", name: "Data Analytics & Visualisation Pro" },
+            { slug: "advanced-data-analytics-and-data-visualisation", name: "Advanced Data Analytics & Visualisation" },
+            { slug: "excel-analytics-pro", name: "Excel Analytics Pro" },
+            { slug: "mastering-data-analysis", name: "Mastering Data Analysis" },
+            { slug: "data-science-and-ai-ml-foundations-and-building-applications-with-flask-and-django", name: "Data Science, AI/ML + Flask & Django" },
+        ]
+    },
+    {
+        id: "web-design",
+        name: "Web Design",
+        icon: "🌐",
+        desc: "Create stunning, responsive websites from concept to code using modern design principles and tools.",
+        courses: [
+            { slug: "web-designing", name: "Web Designing" },
+            { slug: "advanced-web-designing-concepts", name: "Advanced Web Designing Concepts" },
+            { slug: "fundamentals-of-web-design", name: "Fundamentals of Web Design" },
+            { slug: "responsive-web-design-techniques", name: "Responsive Web Design" },
+            { slug: "web-design-tools-technologies-and-accessibility-considerations", name: "Web Design Tools & Accessibility" },
+            { slug: "designing-for-web-accessibility", name: "Designing for Web Accessibility" },
+            { slug: "foundations-of-html-and-web-development", name: "HTML & Web Development Foundations" },
+            { slug: "introduction-to-css-and-web-styling-techniques", name: "CSS & Web Styling" },
+            { slug: "advanced-css-and-front-end-design", name: "Advanced CSS & Front-End Design" },
+            { slug: "advanced-javascript-and-web-application-development", name: "Advanced JavaScript & Web Apps" },
+            { slug: "fundamentals-of-html-and-introduction-to-css", name: "HTML Fundamentals & Intro to CSS" },
+            { slug: "advanced-html-and-css", name: "Advanced HTML & CSS" },
+            { slug: "html-css", name: "HTML & CSS" },
+            { slug: "webcraft-fundamentals", name: "Webcraft Fundamentals" },
+            { slug: "webcraft-pro", name: "Webcraft Pro" },
+            { slug: "web-design-101", name: "Web Design 101" },
+        ]
+    },
+    {
+        id: "graphic-design-dtp",
+        name: "Graphic Design & DTP",
+        icon: "🎨",
+        desc: "Design compelling visual content for print and digital using industry-standard creative tools.",
+        courses: [
+            { slug: "graphic-designing", name: "Graphic Designing" },
+            { slug: "fundamentals-of-graphic-design", name: "Fundamentals of Graphic Design" },
+            { slug: "digital-design-tools-and-software", name: "Digital Design Tools & Software" },
+            { slug: "creating-brand-identity-and-logo-design", name: "Brand Identity & Logo Design" },
+            { slug: "designing-for-print-and-digital-media", name: "Designing for Print & Digital Media" },
+            { slug: "essentials-of-desktop-publishing-design-principles-tools-and-techniques", name: "DTP Essentials" },
+            { slug: "coreldraw-essentials-and-advanced-mastery", name: "CorelDRAW Essentials & Mastery" },
+            { slug: "illustration-and-design-proficiency-adobe-illustrator-essentials", name: "Adobe Illustrator Essentials" },
+            { slug: "adobe-indesign-mastery", name: "Adobe InDesign Mastery" },
+            { slug: "adobe-indesign-mastery-advanced-techniques-for-creating-efficient-designs", name: "Adobe InDesign – Advanced Techniques" },
+            { slug: "dtp-adobe", name: "DTP Adobe" },
+            { slug: "desktop-publishing-coreldraw", name: "Desktop Publishing – CorelDRAW" },
+            { slug: "dtp-corel-draw", name: "DTP CorelDRAW" },
+            { slug: "desktop-publishing-adobe-and-coreldraw", name: "DTP Adobe & CorelDRAW" },
+            { slug: "dtp-adobe-corel-draw", name: "DTP Adobe + CorelDRAW" },
+            { slug: "advanced-dtp", name: "Advanced DTP" },
+            { slug: "desktop-publishing-adobe", name: "Desktop Publishing Adobe" },
+            { slug: "coreldraw-essentials", name: "CorelDRAW Essentials" },
+            { slug: "desktop-publishing-pro", name: "Desktop Publishing Pro" },
+            { slug: "desktop-publishing-pro-coreldraw-pro", name: "Desktop Publishing Pro – CorelDRAW" },
+            { slug: "design-basics-101-graphic-design", name: "Design Basics 101" },
+            { slug: "digital-design-toolbox", name: "Digital Design Toolbox" },
+        ]
+    },
+    {
+        id: "photo-video",
+        name: "Photo & Video Editing",
+        icon: "📸",
+        desc: "Master photo retouching, video editing, and post-production workflows used by creative professionals.",
+        courses: [
+            { slug: "photo-editing-photoshop", name: "Photo Editing with Photoshop" },
+            { slug: "photoshop", name: "Photoshop" },
+            { slug: "video-editing", name: "Video Editing" },
+            { slug: "advanced-video-editing-techniques", name: "Advanced Video Editing" },
+            { slug: "fundamentals-of-image-editing", name: "Fundamentals of Image Editing" },
+            { slug: "advanced-image-editing-techniques", name: "Advanced Image Editing Techniques" },
+            { slug: "photo-restoration-methods", name: "Photo Restoration Methods" },
+            { slug: "creative-effects-and-artistic-enhancements-in-image-editing", name: "Creative Effects & Artistic Enhancements" },
+            { slug: "video-editing-techniques", name: "Video Editing Techniques" },
+            { slug: "creative-elements-in-video-editing", name: "Creative Elements in Video Editing" },
+            { slug: "mastering-video-editing-tools-and-motion-design", name: "Video Editing Tools & Motion Design" },
+            { slug: "video-editing-project-management-and-collaboration-with-career-aspects", name: "Video Editing Project Management" },
+            { slug: "advanced-image-editing", name: "Advanced Image Editing" },
+            { slug: "picture-perfect-edits", name: "Picture Perfect Edits" },
+            { slug: "cinemagic-creative-editing", name: "Cinemagic Creative Editing" },
+            { slug: "be-a-photofix-pro", name: "Be a Photofix Pro" },
+        ]
+    },
+    {
+        id: "animation-3d",
+        name: "Animation & 3D",
+        icon: "🎬",
+        desc: "Bring ideas to life with 2D/3D animation, VFX, and modelling techniques used in film and gaming.",
+        courses: [
+            { slug: "3d-modelling", name: "3D Modelling" },
+            { slug: "3d-texturing-lighting", name: "3D Texturing & Lighting" },
+            { slug: "foundations-of-animation", name: "Foundations of Animation" },
+            { slug: "concepts-of-2d-animation-and-visual-effects", name: "2D Animation & Visual Effects" },
+            { slug: "introduction-to-3d-animation", name: "Introduction to 3D Animation" },
+            { slug: "vfx-and-animation", name: "VFX & Animation" },
+            { slug: "introduction-to-3d-modeling-and-computer-generated-imagery-cgi", name: "3D Modeling & CGI" },
+            { slug: "advanced-techniques-in-3d-modeling", name: "Advanced 3D Modeling" },
+            { slug: "illustration-essentials-from-concept-to-creation", name: "Illustration Essentials" },
+            { slug: "guide-to-mastering-adobe-illustrator-from-sketching-to-advanced-techniques", name: "Mastering Adobe Illustrator" },
+            { slug: "mastering-digital-illustration-tools-and-advanced-color-techniques", name: "Digital Illustration & Colour Techniques" },
+            { slug: "character-design-ethics-and-output-mastery", name: "Character Design & Output Mastery" },
+            { slug: "integrated-foundations-of-animation-and-visual-effects-basics-of-animation", name: "Animation & VFX Foundations" },
+            { slug: "advanced-animation-and-vfx-techniques", name: "Advanced Animation & VFX" },
+            { slug: "animation-and-vfx", name: "Animation & VFX" },
+            { slug: "illustration-basics-101", name: "Illustration Basics 101" },
+            { slug: "digital-illustration-pro", name: "Digital Illustration Pro" },
+            { slug: "advanced-illustration-techniques", name: "Advanced Illustration Techniques" },
+            { slug: "content-illustrator", name: "Content Illustrator" },
+            { slug: "autocad", name: "AutoCAD" },
+        ]
+    },
+    {
+        id: "accounting-finance",
+        name: "Accounting & Finance",
+        icon: "📊",
+        desc: "Build expertise in accounting, Tally, GST, and financial management for the modern workplace.",
+        courses: [
+            { slug: "tally-prime-with-gst", name: "Tally Prime with GST" },
+            { slug: "advanced-tally-prime-with-gst", name: "Advanced Tally Prime with GST" },
+            { slug: "advanced-tally-pro", name: "Advanced Tally Pro" },
+            { slug: "understanding-the-marketplace", name: "Understanding the Marketplace" },
+            { slug: "maintenance-of-information-in-books-of-accounts", name: "Books of Accounts" },
+            { slug: "analysis-of-accounting-information", name: "Analysis of Accounting Information" },
+            { slug: "fundamentals-of-accounting-and-introduction-to-tally-software", name: "Accounting Fundamentals & Tally" },
+            { slug: "tally-software-for-purchase-and-inventory-management", name: "Tally for Purchase & Inventory" },
+            { slug: "integrated-financial-and-inventory-management-using-tally-prime", name: "Financial & Inventory Management (Tally)" },
+            { slug: "advanced-financial-and-taxation-management-using-tally-prime", name: "Advanced Financial & Tax Management" },
+            { slug: "tally-pro-advanced-financial-management-and-banking-essentials", name: "Tally Pro – Financial & Banking" },
+            { slug: "tally-payroll-mastering-payroll-management-and-tds-compliance", name: "Tally Payroll & TDS Compliance" },
+            { slug: "tally-gst-comprehensive-gst-compliance-and-implementation", name: "Tally GST Compliance" },
+            { slug: "tally-biz-pro-advanced-gst-tcs-and-financial-management", name: "Tally Biz Pro – GST, TCS & Finance" },
+            { slug: "accounting-basics-with-inventory-management-in-tally", name: "Accounting Basics & Inventory (Tally)" },
+            { slug: "advance-accounting-insights", name: "Advanced Accounting Insights" },
+            { slug: "bizops-insights", name: "BizOps Insights" },
+            { slug: "advanced-bizops-insights", name: "Advanced BizOps Insights" },
+            { slug: "financial-analytics-with-tally-prime", name: "Financial Analytics with Tally Prime" },
+            { slug: "advanced-accounting-pro", name: "Advanced Accounting Pro" },
+            { slug: "bfsi", name: "BFSI" },
+            { slug: "finance-foundations--indian-banking-and-taxes", name: "Finance Foundations – Banking & Taxes" },
+            { slug: "indian-market-investment-essentials", name: "Indian Market Investment Essentials" },
+            { slug: "financial-fundamentals", name: "Financial Fundamentals" },
+            { slug: "tally-master-essentials", name: "Tally Master Essentials" },
+            { slug: "mastering-advanced-accounting", name: "Mastering Advanced Accounting" },
+            { slug: "foundation-of-financial-accounting-with-tally-prime-and-excel", name: "Financial Accounting with Tally & Excel" },
+            { slug: "foundation-of-financial-accountingwith-tally-prime-and-excel", name: "Financial Accounting with Tally & Excel (Alt)" },
+            { slug: "accounting-as-information-system", name: "Accounting as Information System" },
+        ]
+    },
+    {
+        id: "it-networking",
+        name: "IT & Networking",
+        icon: "🔒",
+        desc: "Gain hands-on skills in hardware, networking, cybersecurity, and IT support.",
+        courses: [
+            { slug: "it-network-support", name: "IT Network Support" },
+            { slug: "network-support", name: "Network Support" },
+            { slug: "it-security-support", name: "IT Security Support" },
+            { slug: "security-support", name: "Security Support" },
+            { slug: "it-hardware-and-networking", name: "IT Hardware & Networking" },
+            { slug: "understanding-it-hardware-and-system-components", name: "IT Hardware & System Components" },
+            { slug: "mastering-installations-and-troubleshooting-of-it-hardware", name: "IT Hardware Installations & Troubleshooting" },
+            { slug: "understanding-computer-networks", name: "Understanding Computer Networks" },
+            { slug: "mastering-computer-network-management-and-troubleshooting", name: "Network Management & Troubleshooting" },
+            { slug: "cyber-security", name: "Cyber Security" },
+            { slug: "it-desktop-support", name: "IT Desktop Support" },
+            { slug: "desktop-support", name: "Desktop Support" },
+            { slug: "hardware-support", name: "Hardware Support" },
+            { slug: "it-hardware-support", name: "IT Hardware Support" },
+            { slug: "it", name: "IT" },
+            { slug: "it-for-art-teacher", name: "IT for Art Teachers" },
+            { slug: "it-for-teachers", name: "IT for Teachers" },
+            { slug: "smart-teacher", name: "Smart Teacher" },
+            { slug: "database-management-system", name: "Database Management System" },
+            { slug: "database-management-and-sql-mastery", name: "Database Management & SQL Mastery" },
+            { slug: "advanced-database-management-and-sql-mastery", name: "Advanced Database Management & SQL" },
+            { slug: "database-systems-management-and-transaction-processing", name: "DB Systems & Transaction Processing" },
+            { slug: "advanced-database-management-and-application", name: "Advanced DB Management & Application" },
+            { slug: "basics-of-dbms", name: "Basics of DBMS" },
+            { slug: "advanced-dbms-concepts", name: "Advanced DBMS Concepts" },
+            { slug: "database-essentials", name: "Database Essentials" },
+        ]
+    },
+    {
+        id: "office-productivity",
+        name: "Office & Productivity",
+        icon: "📋",
+        desc: "Master Microsoft Office, Google Workspace, and productivity tools essential in every modern workplace.",
+        courses: [
+            { slug: "office-assistance", name: "Office Assistance" },
+            { slug: "introduction-to-ms-office-tools", name: "Introduction to MS Office Tools" },
+            { slug: "introduction-to-windows-basics", name: "Introduction to Windows Basics" },
+            { slug: "introduction-to-ms-word", name: "Introduction to MS Word" },
+            { slug: "introduction-to-ms-excel", name: "Introduction to MS Excel" },
+            { slug: "introduction-to-ms-powerpoint", name: "Introduction to MS PowerPoint" },
+            { slug: "introduction-to-windows-and-ms-office-tools", name: "Windows & MS Office Tools" },
+            { slug: "ms-word-and-ms-excel-basics", name: "MS Word & Excel Basics" },
+            { slug: "ms-word-and-ms-powerpoint-basics", name: "MS Word & PowerPoint Basics" },
+            { slug: "ms-excel-and-ms-powerpoint-basics", name: "MS Excel & PowerPoint Basics" },
+            { slug: "ms-windows-and-ms-word-basics", name: "MS Windows & Word Basics" },
+            { slug: "ms-windows-and-ms-excel-basics", name: "MS Windows & Excel Basics" },
+            { slug: "ms-windows-and-ms-powerpoint-basics", name: "MS Windows & PowerPoint Basics" },
+            { slug: "data-entry-and-data-management", name: "Data Entry & Data Management" },
+            { slug: "introduction-to-data-management-and-typing", name: "Data Management & Typing" },
+            { slug: "efficient-techniques-for-data-entry", name: "Efficient Data Entry Techniques" },
+            { slug: "data-management-and-quality-assurance-processes", name: "Data Management & QA" },
+            { slug: "database-management-fundamentals", name: "Database Management Fundamentals" },
+            { slug: "data-security-and-ethical-considerations", name: "Data Security & Ethics" },
+            { slug: "introduction-to-google-workspace", name: "Introduction to Google Workspace" },
+            { slug: "advanced-techniques-in-google-workspace", name: "Advanced Google Workspace" },
+            { slug: "multilingual-communication-using-google-workspace", name: "Multilingual Communication (Google Workspace)" },
+            { slug: "leveraging-google-workspace-for-business-and-productivity", name: "Google Workspace for Business" },
+            { slug: "google-workspace-expert", name: "Google Workspace Expert" },
+            { slug: "google-skills-101", name: "Google Skills 101" },
+            { slug: "advanced-google-workspace-skills", name: "Advanced Google Workspace Skills" },
+            { slug: "google-pro-techniques", name: "Google Pro Techniques" },
+            { slug: "fundamentals-of-excel-formulas-and-functions", name: "Excel Formulas & Functions" },
+            { slug: "advanced-excel-formulas-scenarios-pivot-tables-and-charts", name: "Advanced Excel – Pivot Tables & Charts" },
+            { slug: "data-analysis-and-visualization-techniques-using-excel", name: "Data Analysis with Excel" },
+            { slug: "automation-with-excel-macros-and-vba-programming", name: "Excel Macros & VBA" },
+            { slug: "advanced-excel", name: "Advanced Excel" },
+            { slug: "excel-essentials", name: "Excel Essentials" },
+            { slug: "excel-essentials-pro", name: "Excel Essentials Pro" },
+            { slug: "utilizing-free-and-open-source-tools-for-effective-data-management", name: "Open Source Tools for Data Management" },
+            { slug: "data-entry-pro", name: "Data Entry Pro" },
+            { slug: "advanced-data-entry-techniques", name: "Advanced Data Entry Techniques" },
+            { slug: "data-mastery-basics", name: "Data Mastery Basics" },
+            { slug: "advanced-data-mastery", name: "Advanced Data Mastery" },
+            { slug: "english", name: "English" },
+            { slug: "soft-skills", name: "Soft Skills" },
+        ]
+    },
+    {
+        id: "business-marketing",
+        name: "Business & Marketing",
+        icon: "📈",
+        desc: "Develop business acumen, marketing strategy, and entrepreneurship skills for today's competitive landscape.",
+        courses: [
+            { slug: "social-media-marketing", name: "Social Media Marketing" },
+            { slug: "retail-management", name: "Retail Management" },
+            { slug: "digital-freelancing", name: "Digital Freelancing" },
+            { slug: "advanced-digital-freelancing", name: "Advanced Digital Freelancing" },
+            { slug: "mastering-management-objectives-and-processes", name: "Management Objectives & Processes" },
+            { slug: "mastering-research-processes", name: "Research Processes" },
+            { slug: "marketing-101-strategy-and-process", name: "Marketing 101" },
+            { slug: "service-marketing-strategies-for-success", name: "Service Marketing Strategies" },
+            { slug: "service-expectation-management", name: "Service Expectation Management" },
+            { slug: "customer-centric-service-strategies", name: "Customer-Centric Strategies" },
+            { slug: "designing-for-service-excellence", name: "Designing for Service Excellence" },
+            { slug: "capacity-management-for-service-excellence", name: "Capacity Management" },
+            { slug: "global-service-management", name: "Global Service Management" },
+            { slug: "service-model-simulation-theory-and-practice", name: "Service Model Simulation" },
+            { slug: "service-quality-optimization-essentials", name: "Service Quality Optimisation" },
+            { slug: "integrated-branding-and-pricing-strategies", name: "Branding & Pricing Strategies" },
+            { slug: "modern-economy", name: "Modern Economy" },
+            { slug: "services-in-modern-economy", name: "Services in Modern Economy" },
+            { slug: "entrepreneurship-journey-from-idea-to-impact", name: "Entrepreneurship – Idea to Impact" },
+            { slug: "enhancing-service-through-people-and-technology", name: "Service through People & Technology" },
+            { slug: "foundations-of-digital-and-social-media-marketing", name: "Digital & Social Media Marketing" },
+            { slug: "mastering-social-media-platforms-and-tools", name: "Social Media Platforms & Tools" },
+            { slug: "business-mathematics-and-statistics", name: "Business Mathematics & Statistics" },
+            { slug: "data-processing-and-reporting", name: "Data Processing & Reporting" },
+            { slug: "understanding-human-behaviour", name: "Understanding Human Behaviour" },
+            { slug: "written-communication-skills", name: "Written Communication Skills" },
+            { slug: "retail-insights-and-sales-mastery", name: "Retail Insights & Sales Mastery" },
+            { slug: "retail-business-dynamics", name: "Retail Business Dynamics" },
+            { slug: "mastering-management-and-research-processes", name: "Management & Research Processes" },
+            { slug: "service-marketing-strategies", name: "Service Marketing Strategies" },
+            { slug: "customer-centric-marketing", name: "Customer-Centric Marketing" },
+            { slug: "service-designing-and-operations", name: "Service Designing & Operations" },
+            { slug: "managing-service-operations", name: "Managing Service Operations" },
+            { slug: "service-quality", name: "Service Quality" },
+            { slug: "service-entrepreneurship", name: "Service Entrepreneurship" },
+            { slug: "basics-of-management-and-behavioral-science", name: "Management & Behavioural Science" },
+            { slug: "management-essentials-101-with-ms-word-and-excel-365", name: "Management Essentials + MS Word & Excel 365" },
+            { slug: "management-essentials-101-with-ms-excel-and-powerpoint-365", name: "Management Essentials + MS Excel & PPT 365" },
+            { slug: "management-essentials-101-with-ms-word-and-powerpoint-365", name: "Management Essentials + MS Word & PPT 365" },
+            { slug: "management-basics-with-soft-skills", name: "Management Basics & Soft Skills" },
+            { slug: "service-entrepreneurship-and-social-media-marketing", name: "Service Entrepreneurship & Social Media" },
+            { slug: "essentials-of-service-excellence-and-strategic-service-management", name: "Service Excellence & Strategic Management" },
+            { slug: "service-entrepreneurship-and-data-management-with-excel", name: "Service Entrepreneurship & Data Management" },
+            { slug: "mastering-marketing-from-basics-to-customer-insights", name: "Marketing – Basics to Customer Insights" },
+            { slug: "advanced-service-operations-from-fundamentals-to-mastery", name: "Advanced Service Operations" },
+            { slug: "building-service-businesses-economy-techniques-and-data-reporting", name: "Building Service Businesses" },
+            { slug: "service-performance-managing-promises-and-ensuring-quality", name: "Service Performance & Quality" },
+        ]
+    }
+];
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function slugToTitle(slug) {
+    return slug
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, c => c.toUpperCase())
+        .replace(/\bAi\b/g, 'AI')
+        .replace(/\bMl\b/g, 'ML')
+        .replace(/\bIot\b/g, 'IoT')
+        .replace(/\bMs\b/g, 'MS')
+        .replace(/\bDtp\b/g, 'DTP')
+        .replace(/\bVfx\b/g, 'VFX')
+        .replace(/\bOop\b/g, 'OOP')
+        .replace(/\bGst\b/g, 'GST')
+        .replace(/\bPhp\b/g, 'PHP')
+        .replace(/\bSql\b/g, 'SQL')
+        .replace(/\bDbms\b/g, 'DBMS')
+        .replace(/\bVba\b/g, 'VBA')
+        .replace(/\bHtml\b/g, 'HTML')
+        .replace(/\bCss\b/g, 'CSS');
+}
+
+// ─── Render ───────────────────────────────────────────────────────────────────
+function getActiveTrack() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('track');
+    return tracks.find(t => t.id === id) || tracks[0];
+}
+
+function renderTabs(active) {
+    const container = document.getElementById('trackTabs');
+    container.innerHTML = tracks.map(t => `
+        <button class="track-tab ${t.id === active.id ? 'active' : ''}"
+                onclick="switchTrack('${t.id}')">
+            <span>${t.icon}</span>${t.name}
+        </button>
+    `).join('');
+}
+
+function renderHero(track) {
+    document.title = `KLiC | ${track.name} Courses`;
+    document.getElementById('heroIcon').textContent = track.icon;
+    document.getElementById('heroTitle').textContent = track.name;
+    document.getElementById('heroDesc').textContent = track.desc;
+    document.getElementById('courseCountBadge').textContent = `${track.courses.length} Courses`;
+}
+
+function renderCourses(track) {
+    const grid = document.getElementById('coursesGrid');
+    if (!track.courses.length) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+            <h3>Coming soon</h3>
+            <p>Courses for this track are being added. Check back shortly.</p>
+        </div>`;
+        return;
+    }
+    grid.innerHTML = track.courses.map(c => `
+        <div class="course-card">
+            <div class="course-card-icon">${track.icon}</div>
+            <h3>${c.name}</h3>
+            <span class="course-tag">${track.name}</span>
+            <a class="enroll-link" href="enroll.html">Enroll Now</a>
+        </div>
+    `).join('');
+}
+
+function switchTrack(id) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('track', id);
+    window.history.pushState({}, '', url);
+    init();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function init() {
+    const active = getActiveTrack();
+    renderTabs(active);
+    renderHero(active);
+    renderCourses(active);
+}
+
+init();
+
+// Hamburger
+document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+</body>
+</html>
