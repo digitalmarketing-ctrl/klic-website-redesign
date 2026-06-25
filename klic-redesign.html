@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KLiC | Gateway to Knowledge Lit Careers</title>
+<style>
+    :root {
+        --blue: #0A66C2;
+        --blue-dark: #084d94;
+        --light-blue: #E6F2FB;
+        --light-blue-2: #F4F9FD;
+        --red: #ED2553;
+        --red-dark: #c41a41;
+        --light-red: #fdeaef;
+        --orange: #F68029;
+        --orange-dark: #d4651a;
+        --light-orange: #fef0e6;
+        --text: #1A2A3A;
+        --text-soft: #5A6B7C;
+        --border: #DCE7F1;
+        --white: #FFFFFF;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        color: var(--text);
+        background: var(--white);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        font-size: 16px;
+    }
+
+    a {
+        color: var(--blue);
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    a:hover {
+        color: var(--blue-dark);
+    }
+
+    .container {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+        position: sticky;
+        top: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: saturate(180%) blur(10px);
+        border-bottom: 1px solid var(--border);
+        z-index: 100;
+    }
+
+    .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 68px;
+    }
+
+    .logo {
+        font-weight: 700;
+        font-size: 22px;
+        color: var(--blue);
+        letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+    }
+
+    .logo img {
+        height: 40px;
+        width: auto;
+        display: block;
+    }
+
+    .logo span {
+        color: var(--text);
+        font-weight: 400;
+        font-size: 14px;
+        margin-left: 8px;
+        letter-spacing: 0;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 28px;
+        list-style: none;
+        align-items: center;
+    }
+
+    .nav-links a {
+        color: var(--text);
+        font-size: 14.5px;
+        font-weight: 500;
+    }
+
+    .nav-links a:hover {
+        color: var(--blue);
+    }
+
+    .nav-links a.btn-primary {
+        color: var(--white);
+    }
+
+    .nav-links a.btn-primary:hover {
+        color: var(--white);
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 22px;
+        border-radius: 8px;
+        font-size: 14.5px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: linear-gradient(120deg, var(--red) 0%, var(--orange) 100%);
+        color: var(--white);
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(120deg, var(--red-dark) 0%, var(--orange-dark) 100%);
+        color: var(--white);
+        transform: translateY(-1px);
+    }
+
+    .btn-outline {
+        background: transparent;
+        color: var(--blue);
+        border: 1.5px solid var(--blue);
+    }
+
+    .btn-outline:hover {
+        background: var(--light-blue);
+        color: var(--blue);
+    }
+
+    .hamburger {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .hamburger span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--text);
+        border-radius: 2px;
+    }
+
+    /* Hero */
+    .hero {
+        padding: 96px 0 80px;
+        background: linear-gradient(160deg, var(--light-blue-2) 0%, #fff5f7 50%, var(--light-orange) 100%);
+        text-align: center;
+    }
+
+    .hero-eyebrow {
+        display: inline-block;
+        background: var(--light-red);
+        color: var(--red);
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 24px;
+        letter-spacing: 0.3px;
+    }
+
+    .hero h1 {
+        font-size: 52px;
+        font-weight: 700;
+        letter-spacing: -1.2px;
+        line-height: 1.15;
+        max-width: 800px;
+        margin: 0 auto 20px;
+    }
+
+    .hero h1 .highlight.college {
+        color: var(--red);
+    }
+
+    .hero h1 .highlight.career {
+        color: var(--orange);
+    }
+
+    .hero p {
+        font-size: 18px;
+        color: var(--text-soft);
+        max-width: 640px;
+        margin: 0 auto 36px;
+    }
+
+    .hero-cta {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .hero-cta .btn {
+        padding: 14px 28px;
+        font-size: 15px;
+    }
+
+    /* Stats */
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        max-width: 720px;
+        margin: 64px auto 0;
+        padding-top: 48px;
+        border-top: 1px solid var(--border);
+    }
+
+    .stat-num {
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--blue);
+        letter-spacing: -1px;
+    }
+
+    .stat-num.red { color: var(--red); }
+    .stat-num.orange { color: var(--orange); }
+
+    .stat-label {
+        font-size: 14px;
+        color: var(--text-soft);
+        margin-top: 4px;
+    }
+
+    /* Section base */
+    section {
+        padding: 88px 0;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 56px;
+    }
+
+    .section-eyebrow {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--blue);
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        margin-bottom: 12px;
+    }
+
+    .section-header h2 {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: -0.8px;
+        margin-bottom: 14px;
+    }
+
+    .section-header p {
+        font-size: 17px;
+        color: var(--text-soft);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* Tracks */
+    .tracks {
+        background: linear-gradient(160deg, var(--light-blue-2) 0%, #fff5f7 60%, var(--light-orange) 100%);
+    }
+
+    .tracks-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+    }
+
+    .track-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: var(--text);
+    }
+
+    .track-card:nth-child(3n+1):hover {
+        border-color: var(--blue);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(10, 102, 194, 0.10);
+        color: var(--text);
+    }
+
+    .track-card:nth-child(3n+2):hover {
+        border-color: var(--red);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(237, 37, 83, 0.10);
+        color: var(--text);
+    }
+
+    .track-card:nth-child(3n+3):hover {
+        border-color: var(--orange);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(246, 128, 41, 0.10);
+        color: var(--text);
+    }
+
+    .track-card:nth-child(3n+1) .track-icon { background: var(--light-blue); }
+    .track-card:nth-child(3n+2) .track-icon { background: var(--light-red); }
+    .track-card:nth-child(3n+3) .track-icon { background: var(--light-orange); }
+
+    .track-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 18px;
+    }
+
+    .track-name {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    /* About */
+    .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+        align-items: center;
+    }
+
+    .about-text h2 {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: -0.8px;
+        margin-bottom: 20px;
+    }
+
+    .about-text p {
+        color: var(--text-soft);
+        margin-bottom: 16px;
+        font-size: 16px;
+    }
+
+    .about-text .btn {
+        margin-top: 12px;
+    }
+
+    .about-card {
+        background: linear-gradient(145deg, var(--light-red) 0%, var(--light-orange) 100%);
+        border-radius: 16px;
+        padding: 48px 40px;
+        text-align: center;
+    }
+
+    .about-card-badge {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--red);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 16px;
+    }
+
+    .about-card-logo {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, var(--red) 0%, var(--orange) 100%);
+        color: var(--white);
+        border-radius: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+
+    .about-card h3 {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .about-card p {
+        color: var(--text-soft);
+        font-size: 15px;
+    }
+
+    /* Programs */
+    .programs {
+        background: var(--white);
+    }
+
+    .programs-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .program-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 32px 28px;
+        transition: all 0.25s ease;
+    }
+
+    .program-card.blue:hover {
+        border-color: var(--blue);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(10, 102, 194, 0.08);
+    }
+
+    .program-card.red:hover {
+        border-color: var(--red);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(237, 37, 83, 0.08);
+    }
+
+    .program-card.orange:hover {
+        border-color: var(--orange);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(246, 128, 41, 0.08);
+    }
+
+    .program-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .program-card.blue .program-icon { background: var(--light-blue); color: var(--blue); }
+    .program-card.red .program-icon  { background: var(--light-red);  color: var(--red); }
+    .program-card.orange .program-icon { background: var(--light-orange); color: var(--orange); }
+
+    .program-card h3 {
+        font-size: 19px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .program-card p {
+        color: var(--text-soft);
+        font-size: 15px;
+        margin-bottom: 16px;
+    }
+
+    .program-link {
+        font-size: 14.5px;
+        font-weight: 600;
+    }
+
+    .program-card.blue  .program-link { color: var(--blue); }
+    .program-card.red   .program-link { color: var(--red); }
+    .program-card.orange .program-link { color: var(--orange); }
+
+    .program-link:after {
+        content: " →";
+    }
+
+    /* CTA */
+    .cta-section {
+        background: linear-gradient(120deg, var(--red) 0%, var(--orange) 100%);
+        color: var(--white);
+        text-align: center;
+        padding: 80px 24px;
+        margin: 0 24px;
+        border-radius: 24px;
+    }
+
+    .cta-wrap {
+        max-width: 1140px;
+        margin: 88px auto;
+    }
+
+    .cta-section h2 {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: -0.8px;
+        margin-bottom: 14px;
+        color: var(--white);
+    }
+
+    .cta-section p {
+        font-size: 17px;
+        opacity: 0.9;
+        max-width: 540px;
+        margin: 0 auto 32px;
+    }
+
+    .cta-section .btn-primary {
+        background: var(--white);
+        color: var(--blue);
+    }
+
+    .cta-section .btn-primary:hover {
+        background: var(--light-blue);
+        color: var(--blue);
+    }
+
+    .cta-section .btn-outline {
+        background: transparent;
+        color: var(--white);
+        border-color: rgba(255,255,255,0.4);
+    }
+
+    .cta-section .btn-outline:hover {
+        background: rgba(255,255,255,0.1);
+        color: var(--white);
+    }
+
+    /* Footer */
+    footer {
+        background: var(--white);
+        border-top: 1px solid var(--border);
+        padding: 64px 0 32px;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 48px;
+        margin-bottom: 48px;
+    }
+
+    .footer-brand .logo {
+        margin-bottom: 16px;
+        display: block;
+    }
+
+    .footer-brand p {
+        font-size: 14.5px;
+        color: var(--text-soft);
+        max-width: 340px;
+    }
+
+    .footer-col h4 {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        color: var(--text);
+        margin-bottom: 18px;
+    }
+
+    .footer-col ul {
+        list-style: none;
+    }
+
+    .footer-col li {
+        margin-bottom: 10px;
+    }
+
+    .footer-col a {
+        color: var(--text-soft);
+        font-size: 14.5px;
+    }
+
+    .footer-col a:hover {
+        color: var(--blue);
+    }
+
+    .socials {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+    }
+
+    .socials a {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .socials a:nth-child(1) { background: var(--light-blue);   color: var(--blue); }
+    .socials a:nth-child(2) { background: var(--light-red);    color: var(--red); }
+    .socials a:nth-child(3) { background: var(--light-orange); color: var(--orange); }
+    .socials a:nth-child(4) { background: var(--light-red);    color: var(--red); }
+
+    .socials a:nth-child(1):hover { background: var(--blue);   color: var(--white); }
+    .socials a:nth-child(2):hover { background: var(--red);    color: var(--white); }
+    .socials a:nth-child(3):hover { background: var(--orange); color: var(--white); }
+    .socials a:nth-child(4):hover { background: var(--red);    color: var(--white); }
+
+    .footer-bottom {
+        padding-top: 28px;
+        border-top: 1px solid var(--border);
+        font-size: 13.5px;
+        color: var(--text-soft);
+        text-align: center;
+    }
+
+    /* Mobile */
+    @media (max-width: 860px) {
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 68px;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            flex-direction: column;
+            gap: 0;
+            padding: 12px 24px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-links.open {
+            display: flex;
+        }
+
+        .nav-links li {
+            width: 100%;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-links li:last-child {
+            border-bottom: none;
+            padding-top: 14px;
+        }
+
+        .hamburger {
+            display: flex;
+        }
+
+        .hero {
+            padding: 64px 0 56px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            letter-spacing: -0.6px;
+        }
+
+        .hero p {
+            font-size: 16px;
+        }
+
+        .stats {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 32px;
+        }
+
+        section {
+            padding: 64px 0;
+        }
+
+        .section-header h2,
+        .about-text h2,
+        .cta-section h2 {
+            font-size: 28px;
+        }
+
+        .about-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .programs-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .footer-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .footer-brand {
+            grid-column: 1 / -1;
+        }
+
+        .cta-section {
+            padding: 56px 24px;
+            margin: 0 16px;
+        }
+
+        .cta-wrap {
+            margin: 64px auto;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .footer-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-cta .btn,
+        .cta-section .btn {
+            width: 100%;
+        }
+    }
+
+    /* Popular Courses */
+    .popular-courses {
+        background: var(--white);
+        padding: 88px 0;
+    }
+
+    .popular-courses .section-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        text-align: left;
+        margin-bottom: 48px;
+    }
+
+    .popular-courses .section-header-text h2 {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: -0.8px;
+        margin-bottom: 10px;
+    }
+
+    .popular-courses .section-header-text p {
+        font-size: 16px;
+        color: var(--text-soft);
+    }
+
+    .popular-courses .section-eyebrow {
+        margin-bottom: 10px;
+    }
+
+    .courses-grid-popular {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .course-card-popular {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        transition: all 0.25s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .course-card-popular:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(10, 102, 194, 0.10);
+        border-color: transparent;
+    }
+
+    .course-thumb {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        display: block;
+        background: var(--light-blue-2);
+    }
+
+    .course-thumb-placeholder {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+    }
+
+    .course-body {
+        padding: 18px 18px 20px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 10px;
+    }
+
+    .course-body h3 {
+        font-size: 15.5px;
+        font-weight: 700;
+        line-height: 1.35;
+        color: var(--text);
+    }
+
+    .course-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .course-level {
+        font-size: 11.5px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 6px;
+    }
+
+    .course-level.master   { background: var(--light-blue);   color: var(--blue); }
+    .course-level.advanced { background: var(--light-orange);  color: var(--orange-dark); }
+    .course-level.beginner { background: #eef7ee;              color: #2a7a2a; }
+
+    .course-hours {
+        font-size: 12px;
+        color: var(--text-soft);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .course-hours::before {
+        content: "⏱";
+        font-size: 11px;
+    }
+
+    .course-desc {
+        font-size: 13.5px;
+        color: var(--text-soft);
+        line-height: 1.55;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .course-card-popular .enroll-btn {
+        margin-top: auto;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--red);
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: color 0.2s;
+    }
+
+    .course-card-popular .enroll-btn::after { content: " →"; }
+    .course-card-popular .enroll-btn:hover  { color: var(--red-dark); }
+
+    @media (max-width: 1024px) {
+        .courses-grid-popular { grid-template-columns: repeat(2, 1fr); }
+        .popular-courses .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+
+    @media (max-width: 540px) {
+        .courses-grid-popular { grid-template-columns: 1fr; }
+    }
+
+    /* Banner Slider */
+    .banner-slider {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: #000;
+        line-height: 0;
+    }
+
+    .slider-track {
+        display: flex;
+        transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform;
+    }
+
+    .slider-slide {
+        min-width: 100%;
+        position: relative;
+        cursor: pointer;
+        display: block;
+        line-height: 0;
+    }
+
+    .slider-slide img {
+        width: 100%;
+        height: 480px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .slider-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0) 60%);
+        transition: background 0.3s;
+    }
+
+    .slider-slide:hover .slider-overlay {
+        background: linear-gradient(90deg, rgba(0,0,0,0.40) 0%, rgba(0,0,0,0.05) 60%);
+    }
+
+    .slider-cta-label {
+        position: absolute;
+        bottom: 32px;
+        left: 40px;
+        background: linear-gradient(120deg, var(--red), var(--orange));
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px 22px;
+        border-radius: 8px;
+        letter-spacing: 0.2px;
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 0.25s, transform 0.25s;
+        pointer-events: none;
+    }
+
+    .slider-slide:hover .slider-cta-label {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Prev / Next buttons */
+    .slider-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.18);
+        backdrop-filter: blur(6px);
+        border: 1.5px solid rgba(255,255,255,0.35);
+        color: #fff;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: background 0.2s;
+        line-height: 1;
+    }
+
+    .slider-btn:hover { background: rgba(255,255,255,0.35); }
+    .slider-btn.prev { left: 16px; }
+    .slider-btn.next { right: 16px; }
+
+    /* Dots */
+    .slider-dots {
+        position: absolute;
+        bottom: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 7px;
+        z-index: 10;
+    }
+
+    .slider-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.45);
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        transition: all 0.25s;
+    }
+
+    .slider-dot.active {
+        background: #fff;
+        width: 24px;
+        border-radius: 4px;
+    }
+
+    @media (max-width: 860px) {
+        .slider-slide img { height: 260px; }
+        .slider-cta-label { bottom: 20px; left: 20px; font-size: 13px; padding: 8px 16px; }
+        .slider-btn { width: 36px; height: 36px; font-size: 16px; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <nav class="nav">
+            <a href="#" class="logo"><img src="mkcl_logo.jpg" alt="MKCL logo"><img src="logo-KLiC-Courses.jpg" alt="KLiC logo"></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="#tracks">Tracks</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" class="btn btn-primary">Register</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </div>
+</header>
+
+<!-- Banner Slider -->
+<div class="banner-slider" id="bannerSlider">
+    <div class="slider-track" id="sliderTrack">
+
+        <a class="slider-slide" href="courses.html?track=accounting-finance">
+            <img src="KLiC_Banner_-_Account_1.webp" alt="Accounting & Finance">
+            <div class="slider-overlay"></div>
+            <span class="slider-cta-label">Explore Accounting & Finance →</span>
+        </a>
+
+        <a class="slider-slide" href="courses.html?track=software-development">
+            <img src="KLiC_Banner_-_Computer_Programming_1.webp" alt="Software Development">
+            <div class="slider-overlay"></div>
+            <span class="slider-cta-label">Explore Software Development →</span>
+        </a>
+
+        <a class="slider-slide" href="courses.html?track=graphic-design-dtp">
+            <img src="KLiC_Banner_-_Graphic_Designing_1.webp" alt="Graphic Design & DTP">
+            <div class="slider-overlay"></div>
+            <span class="slider-cta-label">Explore Graphic Design & DTP →</span>
+        </a>
+
+        <a class="slider-slide" href="courses.html?track=it-networking">
+            <img src="KLiC_Banner_-_HW&N_1.webp" alt="IT & Networking">
+            <div class="slider-overlay"></div>
+            <span class="slider-cta-label">Explore IT & Networking →</span>
+        </a>
+
+        <a class="slider-slide" href="courses.html?track=business-marketing">
+            <img src="KLiC_Banner_-_Mgt_1.webp" alt="Business & Marketing">
+            <div class="slider-overlay"></div>
+            <span class="slider-cta-label">Explore Business & Marketing →</span>
+        </a>
+
+    </div>
+
+    <button class="slider-btn prev" id="sliderPrev" aria-label="Previous">&#8249;</button>
+    <button class="slider-btn next" id="sliderNext" aria-label="Next">&#8250;</button>
+
+    <div class="slider-dots" id="sliderDots"></div>
+</div>
+
+<script>
+(function () {
+    const track  = document.getElementById('sliderTrack');
+    const slides = track.querySelectorAll('.slider-slide');
+    const dotsEl = document.getElementById('sliderDots');
+    const total  = slides.length;
+    let current  = 0;
+    let timer;
+
+    // Build dots
+    slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'slider-dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Slide ' + (i + 1));
+        d.addEventListener('click', () => goTo(i));
+        dotsEl.appendChild(d);
+    });
+
+    function goTo(n) {
+        current = (n + total) % total;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        dotsEl.querySelectorAll('.slider-dot').forEach((d, i) =>
+            d.classList.toggle('active', i === current));
+        resetTimer();
+    }
+
+    function resetTimer() {
+        clearInterval(timer);
+        timer = setInterval(() => goTo(current + 1), 4500);
+    }
+
+    document.getElementById('sliderPrev').addEventListener('click', (e) => { e.preventDefault(); goTo(current - 1); });
+    document.getElementById('sliderNext').addEventListener('click', (e) => { e.preventDefault(); goTo(current + 1); });
+
+    // Pause on hover
+    const slider = document.getElementById('bannerSlider');
+    slider.addEventListener('mouseenter', () => clearInterval(timer));
+    slider.addEventListener('mouseleave', resetTimer);
+
+    // Touch / swipe
+    let startX = 0;
+    track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend',   e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
+    });
+
+    // Prevent link navigation when using prev/next buttons
+    slides.forEach(slide => {
+        slide.addEventListener('click', e => {
+            if (e.target.closest('.slider-btn')) e.preventDefault();
+        });
+    });
+
+    resetTimer();
+})();
+</script>
+
+<section class="hero" id="home">
+    <div class="container">
+        <span class="hero-eyebrow">Gateway to Knowledge Lit Careers</span>
+        <h1>Bridge the gap from <br><span class="highlight college">College</span> to <span class="highlight career">Career</span></h1>
+        <p>KLiC - Knowledge Lit Careers offers 250+ certificate courses designed to build job-ready skills across 10 high-demand sectors.</p>
+        <div class="hero-cta">
+            <a href="#tracks" class="btn btn-primary">Explore Careers</a>
+            <a href="#" class="btn btn-outline">Locate a Center</a>
+        </div>
+
+        <div class="stats">
+            <div>
+                <div class="stat-num">250+</div>
+                <div class="stat-label">Certificate Courses</div>
+            </div>
+            <div>
+                <div class="stat-num red">10</div>
+                <div class="stat-label">Career Sectors</div>
+            </div>
+            <div>
+                <div class="stat-num orange">5000+</div>
+                <div class="stat-label">Learning Centers</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="popular-courses" id="popular">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-header-text">
+                <div class="section-eyebrow">Popular Courses</div>
+                <h2>Start with what works</h2>
+                <p>Top-picked courses trusted by thousands of learners across India.</p>
+            </div>
+            <a href="courses.html" class="btn btn-outline">View all courses</a>
+        </div>
+
+        <div class="courses-grid-popular">
+
+            <div class="course-card-popular">
+                <img class="course-thumb" src="KLiC-Advanced-Excel-2023.jpg" alt="Advanced Excel">
+                <div class="course-body">
+                    <h3>Advanced Excel</h3>
+                    <div class="course-meta">
+                        <span class="course-level master">Master</span>
+                        <span class="course-hours">120 hours</span>
+                    </div>
+                    <p class="course-desc">Excel skills are as important as subject knowledge. Those who master Excel stand out in every workplace.</p>
+                    <a href="courses.html?track=office-productivity" class="enroll-btn">Enroll Now</a>
+                </div>
+            </div>
+
+            <div class="course-card-popular">
+                <img class="course-thumb" src="KLiC-AI-2024.jpg" alt="KLiC AI">
+                <div class="course-body">
+                    <h3>KLiC AI</h3>
+                    <div class="course-meta">
+                        <span class="course-level advanced">Advanced</span>
+                        <span class="course-hours">30 hours</span>
+                    </div>
+                    <p class="course-desc">This course introduces learners to AI tools, cyber security, and cutting-edge AI applications.</p>
+                    <a href="courses.html?track=data-ai" class="enroll-btn">Enroll Now</a>
+                </div>
+            </div>
+
+            <div class="course-card-popular">
+                <img class="course-thumb" src="KLiC-Advanced-Tally-Pro-with-GST-2023.jpg" alt="Tally Prime with GST">
+                <div class="course-body">
+                    <h3>Tally Prime with GST</h3>
+                    <div class="course-meta">
+                        <span class="course-level master">Master</span>
+                        <span class="course-hours">120 hours</span>
+                    </div>
+                    <p class="course-desc">Enroll in KLiC Tally Prime with GST and learn everything about financial accounting and taxation.</p>
+                    <a href="courses.html?track=accounting-finance" class="enroll-btn">Enroll Now</a>
+                </div>
+            </div>
+
+            <div class="course-card-popular">
+                <img class="course-thumb" src="KLiC-Advanced-Tally-Prime-with-GST-2024.png" alt="Advanced Tally Prime with GST">
+                <div class="course-body">
+                    <h3>Advanced Tally Prime with GST</h3>
+                    <div class="course-meta">
+                        <span class="course-level advanced">Advanced</span>
+                        <span class="course-hours">120 hours</span>
+                    </div>
+                    <p class="course-desc">The Advanced Tally Prime Course covers the essentials of financial management and GST compliance.</p>
+                    <a href="courses.html?track=accounting-finance" class="enroll-btn">Enroll Now</a>
+                </div>
+            </div>
+
+            <div class="course-card-popular">
+                <img class="course-thumb" src="KLiC-Data-Entry-and-Data-Management-2023.jpg" alt="Data Entry and Data Management">
+                <div class="course-body">
+                    <h3>Data Entry and Data Management</h3>
+                    <div class="course-meta">
+                        <span class="course-level master">Master</span>
+                        <span class="course-hours">120 hours</span>
+                    </div>
+                    <p class="course-desc">The duties of a data entry operator include gathering and entering data accurately and efficiently.</p>
+                    <a href="courses.html?track=office-productivity" class="enroll-btn">Enroll Now</a>
+                </div>
+            </div>
+
+            <div class="course-card-popular">
+                <img class="course-thumb" src="KLiC-Data-Analytics-and-Visualization-2025.png" alt="Data Analytics and Data Visualisation">
+                <div class="course-body">
+                    <h3>Data Analytics and Data Visualisation</h3>
+                    <div class="course-meta">
+                        <span class="course-level master">Master</span>
+                        <span class="course-hours">120 hours</span>
+                    </div>
+                    <p class="course-desc">Welcome to Advanced Data Analytics and Data Visualization, where data becomes insight.</p>
+                    <a href="courses.html?track=data-ai" class="enroll-btn">Enroll Now</a>
+                </div>
+            </div>
+
+            <div class="course-card-popular">
+                <img class="course-thumb" src="KLiC-Python-2023.jpg" alt="Python">
+                <div class="course-body">
+                    <h3>Python</h3>
+                    <div class="course-meta">
+                        <span class="course-level master">Master</span>
+                        <span class="course-hours">120 hours</span>
+                    </div>
+                    <p class="course-desc">This course provides not only an introduction to Python but also covers its real-world applications.</p>
+                    <a href="courses.html?track=software-development" class="enroll-btn">Enroll Now</a>
+                </div>
+            </div>
+
+            <div class="course-card-popular">
+                <img class="course-thumb" src="KLiC-Advanced-Python-2024.jpg" alt="Advanced Python">
+                <div class="course-body">
+                    <h3>Advanced Python</h3>
+                    <div class="course-meta">
+                        <span class="course-level master">Master</span>
+                        <span class="course-hours">120 hours</span>
+                    </div>
+                    <p class="course-desc">Welcome to the KLiC Certificate in Advanced Python Programming — take your skills to the next level.</p>
+                    <a href="courses.html?track=software-development" class="enroll-btn">Enroll Now</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="tracks" id="tracks">
+    <div class="container">
+        <div class="section-header">
+            <h2>Choose your Career</h2>
+            <p>Explore curated career tracks across services, technology, and creative fields.</p>
+        </div>
+        <div class="tracks-grid">
+            <a href="courses.html?track=software-development" class="track-card"><span class="track-icon">💻</span><span class="track-name">Software Development</span></a>
+            <a href="courses.html?track=data-ai" class="track-card"><span class="track-icon">🤖</span><span class="track-name">Data & AI</span></a>
+            <a href="courses.html?track=web-design" class="track-card"><span class="track-icon">🌐</span><span class="track-name">Web Design</span></a>
+            <a href="courses.html?track=graphic-design-dtp" class="track-card"><span class="track-icon">🎨</span><span class="track-name">Graphic Design & DTP</span></a>
+            <a href="courses.html?track=photo-video" class="track-card"><span class="track-icon">📸</span><span class="track-name">Photo & Video Editing</span></a>
+            <a href="courses.html?track=animation-3d" class="track-card"><span class="track-icon">🎬</span><span class="track-name">Animation & 3D</span></a>
+            <a href="courses.html?track=accounting-finance" class="track-card"><span class="track-icon">📊</span><span class="track-name">Accounting & Finance</span></a>
+            <a href="courses.html?track=it-networking" class="track-card"><span class="track-icon">🔒</span><span class="track-name">IT & Networking</span></a>
+            <a href="courses.html?track=office-productivity" class="track-card"><span class="track-icon">📋</span><span class="track-name">Office & Productivity</span></a>
+            <a href="courses.html?track=business-marketing" class="track-card"><span class="track-icon">📈</span><span class="track-name">Business & Marketing</span></a>
+        </div>
+    </div>
+</section>
+
+<section class="programs" id="courses">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-eyebrow">Our Programs</div>
+            <h2>Pathways to your career</h2>
+            <p>Three flagship programs designed to develop the knowledge-based skills employers are looking for.</p>
+        </div>
+        <div class="programs-grid">
+            <div class="program-card blue">
+                <div class="program-icon">D</div>
+                <h3>KLiC Courses</h3>
+                <p>Certificate courses focused on employability skills across the services sector.</p>
+                <a href="#" class="program-link">Learn more</a>
+            </div>
+            <div class="program-card red">
+                <div class="program-icon">C</div>
+                <h3>KLiC Creditized</h3>
+                <p>Skill-based learning aligned with School curriculum for school students.</p>
+                <a href="#" class="program-link">Learn more</a>
+            </div>
+            <div class="program-card orange">
+                <div class="program-icon">DI</div>
+                <h3>KLiC Diploma</h3>
+                <p>Comprehensive diploma programs for in-depth career-readiness training.</p>
+                <a href="#" class="program-link">Learn more</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-text">
+                <div class="section-eyebrow">About</div>
+                <h2>Built by MKCL, trusted nationwide.</h2>
+                <p>Maharashtra Knowledge Corporation Limited (MKCL) was promoted by the Department of Higher and Technical Education, Government of Maharashtra, and incorporated under the Companies Act, 1956.</p>
+                <p>Since 2018, MKCL has operated under the General Administration Department, bringing knowledge-led learning to learners across India.</p>
+                <a href="#" class="btn btn-primary">About MKCL</a>
+            </div>
+            <div class="about-card">
+                <div class="about-card-badge">Certifying Body</div>
+                <div class="about-card-logo">M</div>
+                <h3>Maharashtra Knowledge Corporation Limited</h3>
+                <p>A trusted name in digital education and skill development across India.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="cta-wrap">
+    <div class="cta-section">
+        <h2>Ready to start your journey?</h2>
+        <p>Register today to access KLiC courses, find a learning center near you, or set up a center in your region.</p>
+        <div class="hero-cta">
+            <a href="#" class="btn btn-primary">Enroll Now</a>
+        </div>
+    </div>
+</div>
+
+<footer id="contact">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">KLiC<span>by MKCL</span></a>
+                <p>Knowledge Lit Careers - bridging the gap between learning and the workforce.</p>
+                <div class="socials">
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Twitter">t</a>
+                    <a href="#" aria-label="YouTube">y</a>
+                    <a href="#" aria-label="Instagram">i</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Programs</h4>
+                <ul>
+                    <li><a href="#">KLiC Courses</a></li>
+                    <li><a href="#">KLiC Creditized</a></li>
+                    <li><a href="#">KLiC Diploma</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Learning Methodology</a></li>
+                    <li><a href="#">Downloads</a></li>
+                    <li><a href="#">Verify Result</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:klic@mkcl.org">klic@mkcl.org</a></li>
+                    <li><a href="tel:02243661672">022 - 4366 1672</a></li>
+                    <li><a href="#">MKCL, ICC Trade Towers</a></li>
+                    <li><a href="#">SB Road, Pune 411016</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Maharashtra Knowledge Corporation Limited. All Rights Reserved.
+        </div>
+    </div>
+</footer>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+</script>
+
+</body>
+</html>
