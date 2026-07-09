@@ -175,7 +175,7 @@
 
     /* Hero */
     .hero {
-        padding: 96px 0 80px;
+        padding: 48px 0 40px;
         background: linear-gradient(160deg, var(--light-blue-2) 0%, #fff5f7 50%, var(--light-orange) 100%);
         text-align: center;
     }
@@ -669,24 +669,38 @@
         }
 
         .hero {
-            padding: 64px 0 56px;
+            padding: 40px 0 32px;
+        }
+
+        .hero-eyebrow {
+            margin-bottom: 16px;
         }
 
         .hero h1 {
             font-size: 34px;
             letter-spacing: -0.6px;
+            margin-bottom: 14px;
         }
 
         .hero p {
             font-size: 16px;
+            margin-bottom: 24px;
         }
 
         .stats {
-            grid-template-columns: 1fr;
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
             text-align: center;
-            margin-top: 48px;
-            padding-top: 32px;
+            margin-top: 28px;
+            padding-top: 20px;
+        }
+
+        .stat-num {
+            font-size: 26px;
+        }
+
+        .stat-label {
+            font-size: 12px;
         }
 
         section {
@@ -732,16 +746,38 @@
             grid-template-columns: 1fr;
         }
 
-        .hero-cta .btn,
         .cta-section .btn {
             width: 100%;
+        }
+
+        .hero-cta {
+            flex-wrap: nowrap;
+            gap: 8px;
+        }
+
+        .hero-cta .btn {
+            padding: 12px 14px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .stats {
+            gap: 8px;
+        }
+
+        .stat-num {
+            font-size: 20px;
+        }
+
+        .stat-label {
+            font-size: 10.5px;
         }
     }
 
     /* Popular Courses */
     .popular-courses {
         background: var(--white);
-        padding: 88px 0;
+        padding: 24px 0;
     }
 
     .popular-courses .section-header {
@@ -1008,6 +1044,38 @@
         .slider-cta-label { bottom: 20px; left: 20px; font-size: 13px; padding: 8px 16px; }
         .slider-btn { width: 36px; height: 36px; font-size: 16px; }
     }
+
+    /* Mobile sticky enroll bar */
+    .mobile-enroll-bar {
+        display: none;
+    }
+
+    @media (max-width: 860px) {
+        body {
+            padding-bottom: 76px;
+        }
+
+        .mobile-enroll-bar {
+            display: block;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 200;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+            box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .mobile-enroll-bar .btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 14px;
+            font-size: 15px;
+        }
+    }
 </style>
 </head>
 <body>
@@ -1135,9 +1203,8 @@
 
 <section class="hero" id="home">
     <div class="container">
-        <span class="hero-eyebrow">Gateway to Knowledge Lit Careers</span>
+        <!-- <span class="hero-eyebrow">Gateway to Knowledge Lit Careers</span> -->
         <h1>Bridge the gap from <br><span class="highlight college">College</span> to <span class="highlight career">Career</span></h1>
-        <p>KLiC - Knowledge Lit Careers offers 250+ certificate courses designed to build job-ready skills across 10 high-demand sectors.</p>
         <div class="hero-cta">
             <a href="#tracks" class="btn btn-primary">Explore Careers</a>
             <a href="#" class="btn btn-outline">Locate a Center</a>
@@ -1406,6 +1473,10 @@
         </div>
     </div>
 </footer>
+
+<div class="mobile-enroll-bar">
+    <a href="enroll.html" class="btn btn-primary">Enroll Now</a>
+</div>
 
 <script>
     const hamburger = document.getElementById('hamburger');
