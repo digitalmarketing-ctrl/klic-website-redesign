@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KLiC | Advanced Excel</title>
+<style>
+    :root {
+        --blue: #0A66C2;
+        --blue-dark: #084d94;
+        --light-blue: #E6F2FB;
+        --light-blue-2: #F4F9FD;
+        --red: #ED2553;
+        --red-dark: #c41a41;
+        --light-red: #fdeaef;
+        --orange: #F68029;
+        --orange-dark: #d4651a;
+        --light-orange: #fef0e6;
+        --green: #219D54;
+        --green-dark: #187a40;
+        --light-green: #E7F6EE;
+        --text: #1A2A3A;
+        --text-soft: #5A6B7C;
+        --border: #DCE7F1;
+        --white: #FFFFFF;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        color: var(--text);
+        background: var(--white);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        font-size: 16px;
+    }
+
+    a { color: var(--blue); text-decoration: none; transition: color 0.2s ease; }
+    a:hover { color: var(--blue-dark); }
+
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+        position: sticky;
+        top: 0;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: saturate(180%) blur(10px);
+        border-bottom: 1px solid var(--border);
+        z-index: 100;
+    }
+
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+
+    .logo { font-weight: 700; font-size: 22px; color: var(--blue); letter-spacing: -0.5px; display: flex; align-items: center; }
+    .logo img { height: 40px; width: auto; display: block; }
+
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a { color: var(--text); font-size: 14.5px; font-weight: 500; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links a.btn-primary { color: var(--white); }
+    .nav-links a.btn-primary:hover { color: var(--white); }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 22px;
+        border-radius: 8px;
+        font-size: 14.5px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary { background: linear-gradient(120deg, var(--red) 0%, var(--orange) 100%); color: var(--white); }
+    .btn-primary:hover { background: linear-gradient(120deg, var(--red-dark) 0%, var(--orange-dark) 100%); color: var(--white); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--blue); border: 1.5px solid var(--blue); }
+    .btn-outline:hover { background: var(--light-blue); color: var(--blue); }
+
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; flex-direction: column; gap: 5px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
+
+    /* Course hero */
+    .course-hero {
+        background: linear-gradient(160deg, var(--light-green) 0%, var(--light-blue-2) 60%, var(--light-orange) 100%);
+        border-bottom: 1px solid var(--border);
+        padding: 48px 0 56px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-soft);
+        margin-bottom: 28px;
+    }
+    .back-link:hover { color: var(--blue); }
+    .back-link::before { content: "←"; font-size: 16px; }
+
+    .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 48px;
+        align-items: center;
+    }
+
+    .course-track-badge {
+        display: inline-block;
+        background: var(--light-green);
+        color: var(--green-dark);
+        border: 1px solid rgba(33,157,84,0.25);
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 14px;
+    }
+
+    .course-hero h1 { font-size: 40px; font-weight: 700; letter-spacing: -1px; line-height: 1.15; margin-bottom: 14px; }
+    .course-hero .lead { font-size: 16.5px; color: var(--text-soft); max-width: 560px; margin-bottom: 24px; }
+
+    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .hero-img { border-radius: 16px; overflow: hidden; box-shadow: 0 20px 48px rgba(26,42,58,0.14); }
+    .hero-img img { width: 100%; height: auto; display: block; }
+
+    /* Fact strip */
+    .fact-strip { background: var(--white); border-bottom: 1px solid var(--border); }
+    .facts {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        padding: 20px 0;
+        gap: 12px;
+    }
+    .fact { text-align: center; padding: 6px 10px; border-right: 1px solid var(--border); }
+    .fact:last-child { border-right: none; }
+    .fact .fact-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-soft); }
+    .fact .fact-value { font-size: 15.5px; font-weight: 700; color: var(--text); }
+
+    /* Layout */
+    .course-body-section { padding: 56px 0 80px; }
+    .body-grid { display: grid; grid-template-columns: 1fr 320px; gap: 40px; align-items: start; }
+
+    .content-block { margin-bottom: 40px; }
+    .content-block h2 {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.4px;
+        margin-bottom: 14px;
+        padding-left: 14px;
+        border-left: 4px solid var(--green);
+        line-height: 1.3;
+    }
+    .content-block p { color: var(--text-soft); margin-bottom: 12px; }
+    .content-block ul { list-style: none; margin: 6px 0; }
+    .content-block ul li {
+        position: relative;
+        padding-left: 26px;
+        margin-bottom: 9px;
+        color: var(--text-soft);
+    }
+    .content-block ul li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: var(--green);
+        font-weight: 700;
+    }
+    .content-block ul li strong { color: var(--text); }
+    .content-block ol { margin: 6px 0 6px 22px; color: var(--text-soft); }
+    .content-block ol li { margin-bottom: 8px; padding-left: 4px; }
+
+    /* Accordions */
+    details.accordion {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        margin-bottom: 10px;
+        background: var(--white);
+        overflow: hidden;
+        transition: box-shadow 0.2s;
+    }
+    details.accordion[open] { box-shadow: 0 8px 24px rgba(10,102,194,0.06); }
+    details.accordion summary {
+        cursor: pointer;
+        list-style: none;
+        padding: 16px 20px;
+        font-weight: 600;
+        font-size: 15.5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+    }
+    details.accordion summary::-webkit-details-marker { display: none; }
+    details.accordion summary::after { content: "+"; font-size: 20px; font-weight: 400; color: var(--green); flex-shrink: 0; }
+    details.accordion[open] summary::after { content: "–"; }
+    details.accordion .accordion-body { padding: 0 20px 18px; }
+    details.accordion .accordion-body ul { margin-top: 0; }
+
+    /* Evaluation table */
+    .eval-table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 14.5px; }
+    .eval-table th, .eval-table td { border: 1px solid var(--border); padding: 10px 14px; }
+    .eval-table th { background: var(--light-blue-2); font-weight: 700; text-align: center; }
+    .eval-table td { color: var(--text-soft); }
+    .eval-table .center { text-align: center; }
+    .eval-table .total-row { background: var(--light-blue-2); }
+    .eval-table .total-row td { color: var(--text); font-weight: 700; }
+
+    .content-block h3 { font-size: 17px; font-weight: 700; margin: 22px 0 8px; }
+
+    /* Callout */
+    .callout {
+        background: var(--light-green);
+        border: 1px solid rgba(33,157,84,0.25);
+        border-radius: 12px;
+        padding: 18px 20px;
+        margin: 16px 0;
+        color: var(--text);
+        font-size: 15px;
+    }
+    .callout strong { color: var(--green-dark); }
+
+    /* Sidebar */
+    .sidebar { position: sticky; top: 92px; display: flex; flex-direction: column; gap: 20px; }
+
+    .side-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 24px;
+    }
+    .side-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+    .side-card ul { list-style: none; }
+    .side-card ul li {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 9px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px;
+    }
+    .side-card ul li:last-child { border-bottom: none; }
+    .side-card ul li .k { color: var(--text-soft); }
+    .side-card ul li .v { font-weight: 600; text-align: right; }
+    .side-card .btn { width: 100%; text-align: center; margin-top: 6px; }
+    .side-card .btn + .btn { margin-top: 10px; }
+
+    .feature-pill {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--light-blue-2);
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .feature-pill span.ic { font-size: 20px; }
+
+    /* Recommended courses */
+    .recommended-section { background: var(--light-blue-2); border-top: 1px solid var(--border); padding: 56px 0 72px; }
+    .recommended-section h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 22px; }
+    .rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
+    .rec-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 24px 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        transition: all 0.25s ease;
+    }
+    .rec-card:hover { border-color: var(--blue); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(10,102,194,0.08); }
+    .rec-card .rec-icon {
+        width: 42px; height: 42px; border-radius: 11px;
+        background: var(--light-blue);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 19px;
+    }
+    .rec-card h3 { font-size: 15.5px; font-weight: 700; color: var(--text); }
+    .rec-card .rec-link { margin-top: auto; font-size: 13.5px; font-weight: 600; color: var(--red); }
+    .rec-card .rec-link::after { content: " →"; }
+
+    /* Footer */
+    footer { background: var(--text); color: rgba(255,255,255,0.75); padding: 40px 0; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 14px; }
+    .footer-inner a { color: var(--white); font-weight: 600; }
+    .footer-inner a:hover { color: var(--light-orange); }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 68px; left: 0; right: 0;
+            background: var(--white);
+            flex-direction: column;
+            gap: 0;
+            padding: 12px 24px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-links.open { display: flex; }
+        .nav-links li { width: 100%; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .nav-links li:last-child { border-bottom: none; padding-top: 14px; }
+        .hamburger { display: flex; }
+        .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+        .course-hero h1 { font-size: 30px; }
+        .body-grid { grid-template-columns: 1fr; }
+        .sidebar { position: static; }
+        .fact { border-right: none; text-align: left; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <nav class="nav">
+            <a href="klic-redesign.html" class="logo">
+                <img src="mkcl_logo.jpg" alt="MKCL logo">
+                <img src="logo-KLiC-Courses.jpg" alt="KLiC logo">
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="klic-redesign.html#home">Home</a></li>
+                <li><a href="klic-redesign.html#courses">Courses</a></li>
+                <li><a href="klic-redesign.html#tracks">Tracks</a></li>
+                <li><a href="klic-redesign.html#about">About</a></li>
+                <li><a href="klic-redesign.html#contact">Contact</a></li>
+                <li><a href="enroll.html?course=advanced-excel" class="btn btn-primary">Register</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero -->
+<section class="course-hero">
+    <div class="container">
+        <a href="courses.html?track=office-productivity" class="back-link">Back to Courses</a>
+        <div class="hero-grid">
+            <div>
+                <span class="course-track-badge">KLiC Certificate Course</span>
+                <h1>Advanced Excel</h1>
+                <p class="lead">Excel skills are as important as the subject knowledge. Those who know Excel can find a better paying job. An Excel Expert collects, edits, analyses data, creates data bases and reports. The conclusions made by the data expert are helpful for organizations to forecast the business speculations.</p>
+                <div class="hero-cta">
+                    <a href="enroll.html?course=advanced-excel" class="btn btn-primary">Enroll Now</a>
+                    <a href="https://searchcenter.mkcl.org/klic" target="_blank" rel="noopener" class="btn btn-outline">List of ALCs</a>
+                </div>
+            </div>
+            <div class="hero-img">
+                <img src="KLiC-Advanced-Excel-2023.jpg" alt="KLiC Advanced Excel course">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick facts -->
+<div class="fact-strip">
+    <div class="container">
+        <div class="facts">
+            <div class="fact"><div class="fact-label">Duration</div><div class="fact-value">120 Hours</div></div>
+            <div class="fact"><div class="fact-label">Level</div><div class="fact-value">Master</div></div>
+            <div class="fact"><div class="fact-label">Language</div><div class="fact-value">English</div></div>
+            <div class="fact"><div class="fact-label">Mode</div><div class="fact-value">At ALC or Online</div></div>
+            <div class="fact"><div class="fact-label">Age</div><div class="fact-value">≥ 16 Years</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- Body -->
+<section class="course-body-section">
+    <div class="container">
+        <div class="body-grid">
+            <div>
+                <!-- Who should join -->
+                <div class="content-block" id="who-should-join">
+                    <h2>Who Should Join</h2>
+                    <ul>
+                        <li><strong>Accounting and Finance Students</strong> – To gain practical skills in managing data, preparing reports, and performing financial analysis.</li>
+                        <li><strong>Business and Management Students</strong> – Essential for understanding data-driven decision-making, budgeting, and inventory management.</li>
+                        <li><strong>Data Analysts and Aspiring Data Professionals</strong> – Offers foundational tools like pivot tables, formulas, and scenario analysis for handling large datasets.</li>
+                        <li><strong>Retail Store Managers and Logistics Staff</strong> – Useful for inventory tracking, sales analysis, and reporting.</li>
+                        <li><strong>Human Resources (HR) Professionals</strong> – Beneficial for managing employee data, attendance records, and performance analysis.</li>
+                        <li><strong>Project Managers</strong> – Enables tracking project progress, managing resources, and scenario planning for effective project outcomes.</li>
+                        <li><strong>Entrepreneurs and Small Business Owners</strong> – Essential for budgeting, sales analysis, and performance reporting to optimize business decisions.</li>
+                    </ul>
+                </div>
+
+                <!-- What you'll learn -->
+                <div class="content-block" id="what-youll-learn">
+                    <h2>What You'll Learn</h2>
+                    <p>After completion of the course, you can get a suitable position in any organization as an Accounts Assistant, Finance Analyst, Retail Store Manager and Data Analyst in any organization.</p>
+                </div>
+
+                <!-- Syllabus -->
+                <div class="content-block" id="syllabus">
+                    <h2>Syllabus</h2>
+                    <p>The syllabus covers the following skills:</p>
+                    <ol>
+                        <li>Apply custom formats and layouts</li>
+                        <li>Create advanced formulas</li>
+                        <li>Use of Scenario</li>
+                        <li>Pivot tables and charts</li>
+                        <li>Manage and share workbooks</li>
+                    </ol>
+
+                    <details class="accordion">
+                        <summary>Basics of Data Management</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Introduction to Data Management</li>
+                                <li>How do professionals organize their data?</li>
+                                <li>Meta Data and Big Data</li>
+                                <li>Freelance Data Entry Jobs</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Introduction to Computer Typing and Data Entry</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Introduction to Typing</li>
+                                <li>Keyboarding</li>
+                                <li>Ergonomic Typing</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Introduction to various Typing Methods</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Using different types of keys and symbols in typing</li>
+                                <li>Google Docs – Voice Typing</li>
+                                <li>Lipikaar App</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Introduction to Data Analysis</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Using different types of keys and symbols in typing</li>
+                                <li>Google Docs – Voice Typing</li>
+                                <li>Lipikaar App</li>
+                                <li>Text Formulas</li>
+                                <li>Text Manipulation Functions</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Apply Custom Formats and Layouts</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Apply Custom Data Formats</li>
+                                <li>Use Advanced Fill Options</li>
+                                <li>Apply Advanced Conditional Formatting and Filtering</li>
+                                <li>Apply Custom Styles and Templates</li>
+                                <li>Use Form Controls</li>
+                                <li>Prepare Workbooks for Internationalization</li>
+                                <li>Use Outlines</li>
+                                <li>Use Custom Views</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Create Advanced Charts</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Basic Excel Charts</li>
+                                <li>Use Area, Scatter &amp; Stock Charts</li>
+                                <li>Use Surface, Radar &amp; Combination Charts</li>
+                                <li>Create Custom Chart Templates</li>
+                                <li>Work with Sparklines</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Pivot Tables and Charts</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Pivot Tables</li>
+                                <li>Use Pivot Charts</li>
+                                <li>Create Dashboard using Pivot Table</li>
+                                <li>Using Power Query</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Data Visualisation and Data Analysis</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Use of Macros</li>
+                                <li>Using Data Tables</li>
+                                <li>Create Dashboard using Pivot Table</li>
+                                <li>Using Power Query</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Use Scenarios</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Use What-If Analysis Tools</li>
+                                <li>Create Scenarios</li>
+                                <li>Merge Scenarios</li>
+                                <li>Create Scenario Summaries</li>
+                                <li>Use Data Tables</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Manage and Share Workbooks</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Manage Workbook Versions</li>
+                                <li>Copy Styles between Workbooks</li>
+                                <li>Copy Macros between Workbooks</li>
+                                <li>Use Track Changes and Comments</li>
+                                <li>Merge Workbooks</li>
+                                <li>Protect Workbooks for Sharing</li>
+                                <li>Connect To External Data</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Typical Data Entry Projects</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>File Conversion from PDF to Word</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Create Advanced Formulas</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Functions</li>
+                                <li>Apply functions in formulas</li>
+                                <li>Mathematical Functions</li>
+                                <li>Financial functions</li>
+                                <li>Useful Data Functions</li>
+                                <li>Some Other Useful Functions</li>
+                                <li>Look up data by using functions</li>
+                                <li>Apply advanced date and time functions</li>
+                                <li>Functions for Manipulating Text</li>
+                                <li>Arrays</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Free and Open-Source Tools for Data Management</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Working with Google Sheets</li>
+                                <li>Working with Google Forms</li>
+                                <li>Working with Google Keep</li>
+                                <li>Using OpenOffice.org Writer</li>
+                                <li>Using OpenOffice.org Calc</li>
+                                <li>Using Komprehend</li>
+                                <li>Using Google Data Studio</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Different Data Entry Methods and Data Cleaning</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Using Komprehend</li>
+                                <li>Excel Shortcuts</li>
+                                <li>Mail Merge in MS Word</li>
+                                <li>Compare Docs using MS Word</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion">
+                        <summary>Introduction to DBMS</summary>
+                        <div class="accordion-body">
+                            <ul>
+                                <li>What is a DBMS and its purpose?</li>
+                                <li>Types of DBMS</li>
+                                <li>Examples of DBMS – MySQL, Oracle, etc.</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <h3>Outputs</h3>
+                    <p>Organizing the data professionally, Using Metadata and Big Data, Internationalization for Excel Workbooks, data segregation using custom formats and layouts, Dashboard creation using Power Query and Power Pivot table, Using Power Map, Connecting Excel workbooks to external data, preparing a checklist for data collection using Canva, Data collection for social media marketing.</p>
+
+                    <div class="callout">
+                        <strong>Syllabus mapping:</strong> The KLiC Advanced Excel is highly recommended to MBA students as it covers 94% syllabus of MBA subject "MS Excel and Advanced Excel Lab".
+                    </div>
+                </div>
+
+                <!-- Academic approach -->
+                <div class="content-block" id="academic-approach">
+                    <h2>Academic Approach</h2>
+                    <p>The academic approach of the courses focuses on the "work-centric" education i.e. begin with work (and not from a book!), derive knowledge from work and apply that knowledge to make the work more wholesome, useful and delightful. The ultimate objective is to empower the Learner to engage in socially useful and productive work. It aims at leading the learner to his/her rewarding career as an employee or entrepreneur as well as development of the community to which s/he belongs.</p>
+                    <details class="accordion">
+                        <summary>Learning Methodology (12 Steps)</summary>
+                        <div class="accordion-body">
+                            <ol>
+                                <li>Learners are given an overview of the course and its connection to life and work.</li>
+                                <li>Learners are exposed to the specific tool(s) used in the course through the various real-life applications of the tool(s).</li>
+                                <li>Learners are acquainted with the careers and the hierarchy of roles they can perform at workplaces after attaining increasing levels of mastery over the tool(s).</li>
+                                <li>Learners are acquainted with the architecture of the tool or tool map so as to appreciate various parts of the tool, their functions, utility and inter-relations.</li>
+                                <li>Learners are exposed to simple application development methodology by using the tool at the beginner's level.</li>
+                                <li>Learners perform the differential skills related to the use of the tool to improve the given ready-made industry-standard outputs.</li>
+                                <li>Learners are engaged in appreciation of real-life case studies developed by the experts.</li>
+                                <li>Learners are encouraged to proceed from appreciation to imitation of the experts.</li>
+                                <li>After the imitation experience, they are required to improve the expert's outputs so that they proceed from mere imitation to emulation.</li>
+                                <li>Emulation is taken a level further from working with differential skills towards the visualization and creation of a complete output according to the requirements provided. (Long Assignments)</li>
+                                <li>Understanding the requirements, communicating one's own thoughts and presenting are important skills required in facing an interview for securing a work order/job. For instilling these skills, learners are presented with various subject-specific technical as well as HR-oriented questions and encouraged to answer them.</li>
+                                <li>Finally, they develop the integral skills involving optimal methods and best practices to produce useful outputs right from scratch, publish them in their ePortfolio and thereby proceed from emulation to self-expression, from self-expression to self-confidence and from self-confidence to self-reliance and self-esteem!</li>
+                            </ol>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Evaluation pattern -->
+                <div class="content-block" id="evaluation-pattern">
+                    <h2>Evaluation Pattern</h2>
+                    <p><strong>Evaluation Pattern of KLiC Courses consists of 4 Sections as per below table:</strong></p>
+                    <table class="eval-table">
+                        <thead>
+                            <tr>
+                                <th>Section No.</th>
+                                <th>Section Name</th>
+                                <th>Total Marks</th>
+                                <th>Minimum Passing Marks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="center">1</td>
+                                <td>Learning Progression</td>
+                                <td class="center">25</td>
+                                <td class="center">10</td>
+                            </tr>
+                            <tr>
+                                <td class="center">2</td>
+                                <td>Internal Assessment</td>
+                                <td class="center">25</td>
+                                <td class="center">10</td>
+                            </tr>
+                            <tr>
+                                <td class="center">3</td>
+                                <td>Final Online Examination</td>
+                                <td class="center">50</td>
+                                <td class="center">20</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td></td>
+                                <td>Total</td>
+                                <td class="center">100</td>
+                                <td class="center">40</td>
+                            </tr>
+                            <tr>
+                                <td class="center">4</td>
+                                <td>SUPWs (Socially Useful and Productive Work in form of Assignments)</td>
+                                <td class="center">5 Assignments</td>
+                                <td class="center">2 Assignments to be Completed &amp; Uploaded</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>YCMOU Mark Sheet</h3>
+                    <p>Printed Mark Sheet will be issued by YCMOU on successful completion of Section 1, Section 2 and Section 3 and will be delivered to the learner by MKCL. YCMOU Mark Sheet will be available only for Maharashtra jurisdiction learners.</p>
+
+                    <h3>MKCL's KLiC Certificate</h3>
+                    <p>The certificate will be provided to the learner who will satisfy the below criteria:</p>
+                    <ol>
+                        <li>Learners who have successfully completed above mentioned 3 Sections i.e. Section 1, Section 2 and Section 3</li>
+                        <li>Additionally, learner should have completed Section 4 (i.e. Section 4 will comprise of SUPWs i.e. Socially Useful and Productive Work in form of Assignments) – learner has to complete and upload minimum 2 out of 5 Assignments</li>
+                    </ol>
+                </div>
+
+                <!-- Certification -->
+                <div class="content-block" id="certification">
+                    <h2>Certification</h2>
+                    <ul>
+                        <li>KLiC courses are recognised by Yashwantrao Chavan Maharashtra Open University (YCMOU).</li>
+                        <li>MKCL provides certificate to the KLiC learner after his/her successful course completion.</li>
+                        <li>Yashwantrao Chavan Maharashtra Open University (YCMOU) provides mark sheet to successfully passed KLiC learners (Jurisdiction: Maharashtra).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="side-card">
+                    <h3>Course Details</h3>
+                    <ul>
+                        <li><span class="k">Duration</span><span class="v">120 hours</span></li>
+                        <li><span class="k">Difficulty</span><span class="v">Master</span></li>
+                        <li><span class="k">Language</span><span class="v">English</span></li>
+                        <li><span class="k">Age</span><span class="v">≥ 16 Years</span></li>
+                        <li><span class="k">Education</span><span class="v">10th Passed</span></li>
+                        <li><span class="k">Stream</span><span class="v">Any Stream</span></li>
+                        <li><span class="k">Mode</span><span class="v">Learn at ALC or Online</span></li>
+                        <li><span class="k">Region</span><span class="v">Maharashtra</span></li>
+                    </ul>
+                </div>
+
+                <div class="side-card">
+                    <h3>Course Features</h3>
+                    <div class="feature-pill"><span class="ic">🎓</span> Certificate of Completion</div>
+                </div>
+
+                <div class="side-card">
+                    <h3>Eligibility</h3>
+                    <ul style="display:block;">
+                        <li style="display:list-item; list-style:none; padding:6px 0; color:var(--text-soft);">Learner should preferably be a Std. 10th pass student (not compulsory)</li>
+                        <li style="display:list-item; list-style:none; padding:6px 0; color:var(--text-soft);">It is desirable that the learner has done the MS-CIT course (not compulsory)</li>
+                    </ul>
+                </div>
+
+                <div class="side-card">
+                    <h3>Ready to start?</h3>
+                    <a href="enroll.html?course=advanced-excel" class="btn btn-primary">Enroll Now</a>
+                    <a href="https://searchcenter.mkcl.org/klic" target="_blank" rel="noopener" class="btn btn-outline">Find a Learning Center</a>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<!-- Recommended courses -->
+<section class="recommended-section">
+    <div class="container">
+        <h2>Recommended Courses</h2>
+        <div class="rec-grid">
+            <a class="rec-card" href="courses.html?track=office-productivity">
+                <div class="rec-icon">🗣️</div>
+                <h3>English</h3>
+                <span class="rec-link">View Course</span>
+            </a>
+            <a class="rec-card" href="courses.html?track=business-marketing">
+                <div class="rec-icon">💼</div>
+                <h3>Digital Freelancing</h3>
+                <span class="rec-link">View Course</span>
+            </a>
+            <a class="rec-card" href="courses.html?track=office-productivity">
+                <div class="rec-icon">⌨️</div>
+                <h3>Data Entry and Data Management</h3>
+                <span class="rec-link">View Course</span>
+            </a>
+            <a class="rec-card" href="courses.html?track=accounting-finance">
+                <div class="rec-icon">📊</div>
+                <h3>Tally Prime with GST</h3>
+                <span class="rec-link">View Course</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <div>© 2026 Maharashtra Knowledge Corporation Limited. All Rights Reserved.</div>
+            <div><a href="klic-redesign.html">Home</a> &nbsp;·&nbsp; <a href="courses.html">Courses</a> &nbsp;·&nbsp; <a href="enroll.html?course=advanced-excel">Enroll</a></div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('hamburger').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('open');
+    });
+</script>
+
+</body>
+</html>
