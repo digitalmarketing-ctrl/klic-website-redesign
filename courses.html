@@ -661,7 +661,7 @@ const tracks = [
             { slug: "advanced-excel-formulas-scenarios-pivot-tables-and-charts", name: "Advanced Excel – Pivot Tables & Charts" },
             { slug: "data-analysis-and-visualization-techniques-using-excel", name: "Data Analysis with Excel" },
             { slug: "automation-with-excel-macros-and-vba-programming", name: "Excel Macros & VBA" },
-            { slug: "advanced-excel", name: "Advanced Excel" },
+            { slug: "advanced-excel", name: "Advanced Excel", page: "course-advanced-excel.html" },
             { slug: "excel-essentials", name: "Excel Essentials" },
             { slug: "excel-essentials-pro", name: "Excel Essentials Pro" },
             { slug: "utilizing-free-and-open-source-tools-for-effective-data-management", name: "Open Source Tools for Data Management" },
@@ -788,9 +788,9 @@ function renderCourses(track) {
     grid.innerHTML = track.courses.map(c => `
         <div class="course-card">
             <div class="course-card-icon">${track.icon}</div>
-            <h3>${c.name}</h3>
+            <h3>${c.page ? `<a href="${c.page}" style="color: inherit;">${c.name}</a>` : c.name}</h3>
             <span class="course-tag">${track.name}</span>
-            <a class="enroll-link" href="enroll.html">Enroll Now</a>
+            <a class="enroll-link" href="${c.page || 'enroll.html'}">${c.page ? 'View Course' : 'Enroll Now'}</a>
         </div>
     `).join('');
 }
